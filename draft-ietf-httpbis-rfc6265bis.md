@@ -658,7 +658,8 @@ The "SameSite" attribute limits the scope of the cookie such that it will only
 be attached to requests if those requests are same-site, as defined by the
 algorithm in {{same-site-requests}}. For example, requests for
 `https://site.example/sekrit-image` will attach same-site cookies if and only if
-initiated from a context whose "site for cookies" is (“https”, “site.example”).
+initiated from a context whose "site for cookies" is an origin with a
+scheme and registered domain of "https" and "site.example" respectively.
 
 If the "SameSite" attribute's value is "Strict", the cookie will only be sent
 along with "same-site" requests. If the value is "Lax", the cookie will be sent
@@ -947,13 +948,18 @@ following conditions holds:
 Two origins, A and B, are considered same-site if the following algorithm returns true:
 1.  If A and B are both scheme/host/port triples then
     1.  If A’s scheme does not equal B’s scheme, return false.
-    2.  Let HostA be A’s host, and hostB be B’s host.
+    2.  Let hostA be A’s host, and hostB be B’s host.
         1.  If hostA equals hostB and hostA’s registrable domain is non-null return true.
-        2. If hostA’s registrable domain equals hostB’s registrable domain and hostA’s registrable domain is non-null return true.
-2.  If A and B are both the same non-triple origin return true;
+        2. If hostA’s registrable domain equals hostB’s registrable domain and is non-null return true.
+2.  If A and B are both the same return true;
 3.  Return false.
 
-Note that, for cookie computation purposes, WebSockets connections map “ws” to “http” and “wss” to “https”. [FETCH]
+Note: 
+1. The port component of the origins is not considered.
+2. For a WebSocket request WSURI, let RequestURI be a copy of WSURI, with its
+scheme set to "http" if WSURI's scheme is "ws", and to "https" otherwise.
+RequestURI should then be used as the target URI in the same-site calculation.
+[FETCH]
 
 A request is "same-site" if its target's URI's origin 
 is same-site with the request's client's "site for cookies", or if the
@@ -976,9 +982,9 @@ For a given request ("request"), the following algorithm returns `same-site` or
 
 5.  Return `cross-site`.
 
-The request's client's "site for cookies" is either an origin or the empty
-string. It is calculated depending upon its client's type, as described in the
-following subsections:
+The request's client's "site for cookies" is either a triple origin or a
+globally unique identifier. It is calculated depending upon its client's type,
+as described in the following subsections:
 
 ### Document-based requests {#document-requests}
 
@@ -986,7 +992,7 @@ The URI displayed in a user agent's address bar is the only security context
 directly exposed to users, and therefore the only signal users can reasonably
 rely upon to determine whether or not they trust a particular website. Thus we
 base the notion of "site for cookies" on the top-level URL. We’ll label this
-URI’s origin the “top-level origin”.
+URI’s origin the "top-level origin".
 
 For a document displayed in a top-level browsing context, we can stop here: the
 document's "site for cookies" is the top-level origin.
@@ -996,10 +1002,11 @@ the origins of each of a document's ancestor browsing contexts' active documents
 in order to account for the "multiple-nested scenarios" described in Section 4
 of {{RFC7034}}. A document's "site for cookies" is the top-level origin if and
 only if the document and each of its ancestor documents' origins are same-site
-with the top-level origin. Otherwise its "site for cookies" is the empty string.
+with the top-level origin. Otherwise its "site for cookies" is a a globally
+unique identifier.
 
 Given a Document (`document`), the following algorithm returns its "site for
-cookies" (either an origin, or the empty string):
+cookies" (either a triple origin, or a globally unique identifier):
 
 1.  Let `top-document` be the active document in `document`'s browsing context's
     top-level browsing context.
@@ -1016,8 +1023,8 @@ cookies" (either an origin, or the empty string):
     1.  Let `origin` be the origin of `item`'s URI if `item`'s sandboxed origin
         browsing context flag is set, and `item`'s origin otherwise.
 
-    2.  If `origin` is not same-site with `top-origin`, return the empty
-        string.
+    2.  If `origin` is not same-site with `top-origin`, return a globally
+        unique identifier.
 
 5.  Return `top-origin`.
 
@@ -1041,11 +1048,11 @@ document's "site for cookies".
 
 Shared workers may be bound to multiple documents at once. As it is quite
 possible for those documents to have distinct "site for cookie" values, the
-worker's "site for cookies" will be the empty string in cases where the values
-diverge, and the shared value in cases where the values agree.
+worker's "site for cookies" will be a globally unique identifier in cases
+where the values diverge, and the shared value in cases where the values agree.
 
 Given a WorkerGlobalScope (`worker`), the following algorithm returns its "site
-for cookies" (either an origin, or the empty string):
+for cookies" (either a triple origin, or a globally unique identifier):
 
 1.  Let `site` be `worker`'s origin.
 
@@ -1054,8 +1061,8 @@ for cookies" (either an origin, or the empty string):
     1.  Let `document-site` be `document`'s "site for cookies" (as defined
         in {{document-requests}}).
 
-    2.  If `document-site` is not same-site with `site`, return the empty
-        string.
+    2.  If `document-site` is not same-site with `site`, return a globally
+        unique identifier.
 
 3.  Return `site`.
 
@@ -1076,7 +1083,7 @@ ServiceWorkerGlobalScope. Its "site for cookies" will be the origin of the
 Service Worker's URI.
 
 Given a ServiceWorkerGlobalScope (`worker`), the following algorithm returns its
-"site for cookies" (either an origin, or the empty string):
+"site for cookies" (either a triple origin, or a globally unique identifier):
 
 1.  Return `worker`'s origin.
 
@@ -1945,8 +1952,8 @@ exploring in combination with "SameSite" cookies.
 
 #### Taking Scheme into Consideration
 By using the scheme, as well as the registrable domain, SameSite can help to
-protect a secure site against a network attacker which is impersonating the
-insecure site.
+protect a secure site against a network attacker which is impersonating an
+insecure site with the same registrable domain.
 
 ### Top-level Navigations {#top-level-navigations}
 
