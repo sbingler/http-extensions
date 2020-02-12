@@ -114,6 +114,7 @@ informative:
   RFC5895:
   RFC6265:
   RFC7034:
+  RFC6455:
   UTS46:
     target: http://unicode.org/reports/tr46/
     title: "Unicode IDNA Compatibility Processing"
@@ -947,21 +948,22 @@ following conditions holds:
 
 Two origins, A and B, are considered same-site if the following algorithm returns true:
 1.  If A and B are both scheme/host/port triples then
-    1.  If A’s scheme does not equal B’s scheme, return false.
-    2.  Let hostA be A’s host, and hostB be B’s host.
-        1.  If hostA equals hostB and hostA’s registrable domain is non-null return true.
-        2. If hostA’s registrable domain equals hostB’s registrable domain and is non-null return true.
-2.  If A and B are both the same return true;
+
+    1.  If A's scheme does not equal B's scheme, return false.
+
+    2.  Let hostA be A's host, and hostB be B's host.
+
+        1.  If hostA equals hostB and hostA's registrable domain is non-null, return true.
+
+        2.  If hostA's registrable domain equals hostB's registrable domain and is non-null, return true.
+
+2.  If A and B are both the same origin, return true.
+
 3.  Return false.
 
-Note: 
-1. The port component of the origins is not considered.
-2. For a WebSocket request WSURI, let RequestURI be a copy of WSURI, with its
-scheme set to "http" if WSURI's scheme is "ws", and to "https" otherwise.
-RequestURI should then be used as the target URI in the same-site calculation.
-[FETCH]
+Note: The port component of the origins is not considered.
 
-A request is "same-site" if its target's URI's origin 
+A request is "same-site" if its target's URI's origin
 is same-site with the request's client's "site for cookies", or if the
 request has no client. The request is otherwise "cross-site".
 
@@ -982,17 +984,21 @@ For a given request ("request"), the following algorithm returns `same-site` or
 
 5.  Return `cross-site`.
 
-The request's client's "site for cookies" is either a triple origin or a
-globally unique identifier. It is calculated depending upon its client's type,
-as described in the following subsections:
+Note: The request's URL when establishing a WebSockets connection {{RFC6455}}
+has scheme "http" or "https", rather than "ws" or "wss". See {{FETCH}} which
+maps schemes when constructing the request. This allows same-site cookies to be
+sent with WebSockets.
+
+The request's client's "site for cookies" is an origin. It is calculated
+depending upon its client's type, as described in the following subsections:
 
 ### Document-based requests {#document-requests}
 
 The URI displayed in a user agent's address bar is the only security context
 directly exposed to users, and therefore the only signal users can reasonably
 rely upon to determine whether or not they trust a particular website. Thus we
-base the notion of "site for cookies" on the top-level URL. We’ll label this
-URI’s origin the "top-level origin".
+base the notion of "site for cookies" on the top-level URL. We'll label this
+URI's origin the "top-level origin".
 
 For a document displayed in a top-level browsing context, we can stop here: the
 document's "site for cookies" is the top-level origin.
@@ -1002,8 +1008,8 @@ the origins of each of a document's ancestor browsing contexts' active documents
 in order to account for the "multiple-nested scenarios" described in Section 4
 of {{RFC7034}}. A document's "site for cookies" is the top-level origin if and
 only if the document and each of its ancestor documents' origins are same-site
-with the top-level origin. Otherwise its "site for cookies" is a a globally
-unique identifier.
+with the top-level origin. Otherwise its "site for cookies" is a freshly
+generated globally unique identifier.
 
 Given a Document (`document`), the following algorithm returns its "site for
 cookies" (either a triple origin, or a globally unique identifier):
@@ -1023,8 +1029,8 @@ cookies" (either a triple origin, or a globally unique identifier):
     1.  Let `origin` be the origin of `item`'s URI if `item`'s sandboxed origin
         browsing context flag is set, and `item`'s origin otherwise.
 
-    2.  If `origin` is not same-site with `top-origin`, return a globally
-        unique identifier.
+    2.  If `origin` is not same-site with `top-origin`, return a freshly
+        generated globally unique identifier.
 
 5.  Return `top-origin`.
 
@@ -1048,11 +1054,12 @@ document's "site for cookies".
 
 Shared workers may be bound to multiple documents at once. As it is quite
 possible for those documents to have distinct "site for cookie" values, the
-worker's "site for cookies" will be a globally unique identifier in cases
-where the values diverge, and the shared value in cases where the values agree.
+worker's "site for cookies" will be a freshly generated globally unique
+identifier in cases where the values diverge, and the shared value in cases
+where the values agree.
 
 Given a WorkerGlobalScope (`worker`), the following algorithm returns its "site
-for cookies" (either a triple origin, or a globally unique identifier):
+for cookies" (an origin):
 
 1.  Let `site` be `worker`'s origin.
 
@@ -1061,8 +1068,8 @@ for cookies" (either a triple origin, or a globally unique identifier):
     1.  Let `document-site` be `document`'s "site for cookies" (as defined
         in {{document-requests}}).
 
-    2.  If `document-site` is not same-site with `site`, return a globally
-        unique identifier.
+    2.  If `document-site` is not same-site with `site`, return a freshly
+        generated globally unique identifier.
 
 3.  Return `site`.
 
@@ -1083,7 +1090,7 @@ ServiceWorkerGlobalScope. Its "site for cookies" will be the origin of the
 Service Worker's URI.
 
 Given a ServiceWorkerGlobalScope (`worker`), the following algorithm returns its
-"site for cookies" (either a triple origin, or a globally unique identifier):
+"site for cookies" (an origin):
 
 1.  Return `worker`'s origin.
 
@@ -1952,8 +1959,8 @@ exploring in combination with "SameSite" cookies.
 
 #### Taking Scheme into Consideration
 By using the scheme, as well as the registrable domain, SameSite can help to
-protect a secure site against a network attacker which is impersonating an
-insecure site with the same registrable domain.
+protect https origins against a network attacker that is impersonating an http
+origin with the same registrable domain.
 
 ### Top-level Navigations {#top-level-navigations}
 
@@ -2135,5 +2142,5 @@ Specification document:
 {:numbered="false"}
 RFC 6265 was written by Adam Barth. This document is a minor update of
 RFC 6265, adding small features, and aligning the specification with the
-reality of today’s deployments. Here, we’re standing upon the shoulders
-of a giant since the majority of the text is still Adam’s.
+reality of today's deployments. Here, we're standing upon the shoulders
+of a giant since the majority of the text is still Adam's.
