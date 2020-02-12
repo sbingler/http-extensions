@@ -322,7 +322,9 @@ defined in {{HTML}}.
 {{SERVICE-WORKERS}}.
 
 The term "origin", the mechanism of deriving an origin from a URI, and the "the
-same" matching algorithm for origins are defined in {{RFC6454}}.
+same" matching algorithm for origins are defined in {{RFC6454}}. An origin that
+is a globally unique identifier is sometimes called an opaque origin such as in
+{{HTML}}.
 
 "Safe" HTTP methods include `GET`, `HEAD`, `OPTIONS`, and `TRACE`, as defined
 in Section 4.2.1 of {{RFC7231}}.
@@ -332,7 +334,8 @@ public registry, such as "com", "co.uk", and "pvt.k12.wy.us" {{PSL}}. A domain's
 "registrable domain" is the domain's public suffix plus the label to its left.
 That is, for `https://www.site.example`, the public suffix is `example`, and the
 registrable domain is `site.example`. This concept is defined more rigorously in
-{{PSL}}, which specifies a formal algorithm to obtain both.
+{{PSL}}, which specifies a formal algorithm to obtain both. If the registrable
+domain cannot be obtained it is considered to be null.
 
 The term "request", as well as a request's "client", "current url", "method",
 and "target browsing context", are defined in {{FETCH}}.
@@ -953,11 +956,11 @@ Two origins, A and B, are considered same-site if the following algorithm return
 
     2.  Let hostA be A's host, and hostB be B's host.
 
-        1.  If hostA equals hostB and hostA's registrable domain is non-null, return true.
+        1.  If hostA equals hostB and hostA's registrable domain is null, return true.
 
         2.  If hostA's registrable domain equals hostB's registrable domain and is non-null, return true.
 
-2.  If A and B are both the same origin, return true.
+2.  If A and B are both the same globally unique identifier, return true.
 
 3.  Return false.
 
