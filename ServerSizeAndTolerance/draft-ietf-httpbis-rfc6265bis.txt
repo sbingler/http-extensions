@@ -6,8 +6,8 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                              M. West, Ed.
 Obsoletes: 6265 (if approved)                                 Google LLC
 Intended status: Standards Track                        J. Wilander, Ed.
-Expires: 14 December 2024                                     Apple, Inc
-                                                            12 June 2024
+Expires: 22 December 2024                                     Apple, Inc
+                                                            20 June 2024
 
 
                 Cookies: HTTP State Management Mechanism
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 December 2024.
+   This Internet-Draft will expire on 22 December 2024.
 
 Copyright Notice
 
@@ -1861,12 +1861,6 @@ Table of Contents
    uri, the retrieval's same-site status is computed for the HTTP
    request as defined in Section 5.2, and the retrieval's type is
    "HTTP".
-
-   Note: While this spec requires that a single cookie-string be
-   produced, a user agent may consider splitting large request headers
-   within their [HTTP] implementation.  This is due to potential server
-   header length limits (See Section 4.2.1) being exceeded due to
-   servers setting too many large cookies.
 
 5.8.2.  Non-HTTP APIs
 
