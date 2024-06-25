@@ -1031,7 +1031,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Kleidl, et al.</td>
-<td class="center">Expires 23 December 2024</td>
+<td class="center">Expires 27 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1044,12 +1044,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-httpbis-resumable-upload-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-06-21" class="published">21 June 2024</time>
+<time datetime="2024-06-25" class="published">25 June 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-12-23">23 December 2024</time></dd>
+<dd class="expires"><time datetime="2024-12-27">27 December 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1109,7 +1109,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1628,7 +1628,7 @@ Upload-Offset: 25
 <p id="section-5-4">An upload is considered complete only if the server completely and successfully received a corresponding creation request (<a href="#upload-creation" class="auto internal xref">Section 4</a>) or append request (<a href="#upload-appending" class="auto internal xref">Section 6</a>) with the <code>Upload-Complete</code> header value set to true.<a href="#section-5-4" class="pilcrow">¶</a></p>
 <p id="section-5-5">The client <span class="bcp14">MUST NOT</span> perform offset retrieval while creation (<a href="#upload-creation" class="auto internal xref">Section 4</a>) or append (<a href="#upload-appending" class="auto internal xref">Section 6</a>) is in progress.<a href="#section-5-5" class="pilcrow">¶</a></p>
 <p id="section-5-6">The offset <span class="bcp14">MUST</span> be accepted by a subsequent append (<a href="#upload-appending" class="auto internal xref">Section 6</a>). Due to network delay and reordering, the server might still be receiving data from an ongoing transfer for the same upload resource, which in the client's perspective has failed. The server <span class="bcp14">MAY</span> terminate any transfers for the same upload resource before sending the response by abruptly terminating the HTTP connection or stream. Alternatively, the server <span class="bcp14">MAY</span> keep the ongoing transfer alive but ignore further bytes received past the offset.<a href="#section-5-6" class="pilcrow">¶</a></p>
-<p id="section-5-7">The client <span class="bcp14">MUST NOT</span> start more than one append (<a href="#upload-appending" class="auto internal xref">Section 6</a>) based on the resumption offset from a single offset retrieving (<a href="#offset-retrieving" class="auto internal xref">Section 5</a>) request.<a href="#section-5-7" class="pilcrow">¶</a></p>
+<p id="section-5-7">The client <span class="bcp14">MUST NOT</span> start more than one append (<a href="#upload-appending" class="auto internal xref">Section 6</a>) based on the resumption offset from a single offset retrieving request.<a href="#section-5-7" class="pilcrow">¶</a></p>
 <p id="section-5-8">In order to prevent HTTP caching, the response <span class="bcp14">SHOULD</span> include a <code>Cache-Control</code> header field with the value <code>no-store</code>.<a href="#section-5-8" class="pilcrow">¶</a></p>
 <p id="section-5-9">If the server does not consider the upload resource to be active, it <span class="bcp14">MUST</span> respond with a <code>404 (Not Found)</code> status code.<a href="#section-5-9" class="pilcrow">¶</a></p>
 <p id="section-5-10">The resumption offset can be less than or equal to the number of bytes the client has already sent. The client <span class="bcp14">MAY</span> reject an offset which is greater than the number of bytes it has already sent during this upload. The client is expected to handle backtracking of a reasonable length. If the offset is invalid for this upload, or if the client cannot backtrack to the offset and reproduce the same content it has already sent, the upload <span class="bcp14">MUST</span> be considered a failure. The client <span class="bcp14">MAY</span> cancel the upload (<a href="#upload-cancellation" class="auto internal xref">Section 7</a>) after rejecting the offset.<a href="#section-5-10" class="pilcrow">¶</a></p>
@@ -1659,9 +1659,9 @@ Cache-Control: no-store
 <p id="section-6-1">Upload appending is used for resuming an existing upload.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">The request <span class="bcp14">MUST</span> use the <code>PATCH</code> method and be sent to the upload resource. The <code>Upload-Offset</code> field value (<a href="#upload-offset" class="auto internal xref">Section 8.1</a>) <span class="bcp14">MUST</span> be set to the resumption offset.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">If the end of the request content is not the end of the upload, the <code>Upload-Complete</code> field value (<a href="#upload-complete" class="auto internal xref">Section 8.2</a>) <span class="bcp14">MUST</span> be set to false.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">The server <span class="bcp14">SHOULD</span> respect representation metadata received during creation (<a href="#upload-creation" class="auto internal xref">Section 4</a>) and ignore any representation metadata received from appending (<a href="#upload-appending" class="auto internal xref">Section 6</a>).<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-4">The server <span class="bcp14">SHOULD</span> respect representation metadata received during creation (<a href="#upload-creation" class="auto internal xref">Section 4</a>) and ignore any representation metadata received from appending.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">If the server does not consider the upload associated with the upload resource active, it <span class="bcp14">MUST</span> respond with a <code>404 (Not Found)</code> status code.<a href="#section-6-5" class="pilcrow">¶</a></p>
-<p id="section-6-6">The client <span class="bcp14">MUST NOT</span> perform multiple upload transfers for the same upload resource in parallel. This helps avoid race conditions, and data loss or corruption. The server is <span class="bcp14">RECOMMENDED</span> to take measures to avoid parallel upload transfers: The server <span class="bcp14">MAY</span> terminate any creation (<a href="#upload-creation" class="auto internal xref">Section 4</a>) or append (<a href="#upload-appending" class="auto internal xref">Section 6</a>) for the same upload URL. Since the client is not allowed to perform multiple transfers in parallel, the server can assume that the previous attempt has already failed. Therefore, the server <span class="bcp14">MAY</span> abruptly terminate the previous HTTP connection or stream.<a href="#section-6-6" class="pilcrow">¶</a></p>
+<p id="section-6-6">The client <span class="bcp14">MUST NOT</span> perform multiple upload transfers for the same upload resource in parallel. This helps avoid race conditions, and data loss or corruption. The server is <span class="bcp14">RECOMMENDED</span> to take measures to avoid parallel upload transfers: The server <span class="bcp14">MAY</span> terminate any creation (<a href="#upload-creation" class="auto internal xref">Section 4</a>) or append for the same upload URL. Since the client is not allowed to perform multiple transfers in parallel, the server can assume that the previous attempt has already failed. Therefore, the server <span class="bcp14">MAY</span> abruptly terminate the previous HTTP connection or stream.<a href="#section-6-6" class="pilcrow">¶</a></p>
 <p id="section-6-7">If the offset indicated by the <code>Upload-Offset</code> field value does not match the offset provided by the immediate previous offset retrieval (<a href="#offset-retrieving" class="auto internal xref">Section 5</a>), or the end offset of the immediate previous incomplete successful transfer, the server <span class="bcp14">MUST</span> respond with a <code>409 (Conflict)</code> status code.<a href="#section-6-7" class="pilcrow">¶</a></p>
 <p id="section-6-8">While the request content is being uploaded, the target resource <span class="bcp14">MAY</span> send one or more informational responses with a <code>104 (Upload Resumption Supported)</code> status code to the client. These informational responses <span class="bcp14">MUST NOT</span> contain the <code>Location</code> header field. They <span class="bcp14">MAY</span> include the <code>Upload-Offset</code> header field with the current upload offset as the value to inform the client about the upload progress. The same restrictions on the <code>Upload-Offset</code> header field in informational responses from the upload creation (<a href="#upload-creation" class="auto internal xref">Section 4</a>) apply.<a href="#section-6-8" class="pilcrow">¶</a></p>
 <p id="section-6-9">The server <span class="bcp14">MUST</span> send the <code>Upload-Offset</code> header field in the response if it considers the upload active, either when the response is a success (e.g. <code>201 (Created)</code>), or when the response is a failure (e.g. <code>409 (Conflict)</code>). The value <span class="bcp14">MUST</span> be equal to the end offset of the entire upload, or the begin offset of the next chunk if the upload is still incomplete. The client <span class="bcp14">SHOULD</span> consider the upload failed if the status code indicates a success but the offset indicated by the <code>Upload-Offset</code> field value does not equal the total of begin offset plus the number of bytes uploaded in the request.<a href="#section-6-9" class="pilcrow">¶</a></p>

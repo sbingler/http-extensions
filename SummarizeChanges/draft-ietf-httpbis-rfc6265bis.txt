@@ -6,8 +6,8 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                              M. West, Ed.
 Obsoletes: 6265 (if approved)                                 Google LLC
 Intended status: Standards Track                        J. Wilander, Ed.
-Expires: 23 December 2024                                     Apple, Inc
-                                                            21 June 2024
+Expires: 27 December 2024                                     Apple, Inc
+                                                            25 June 2024
 
 
                 Cookies: HTTP State Management Mechanism
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 December 2024.
+   This Internet-Draft will expire on 27 December 2024.
 
 Copyright Notice
 
@@ -159,21 +159,7 @@ Table of Contents
    10. References
      10.1.  Normative References
      10.2.  Informative References
-   Appendix A.  Changes
-     A.1.  draft-ietf-httpbis-rfc6265bis-00
-     A.2.  draft-ietf-httpbis-rfc6265bis-01
-     A.3.  draft-ietf-httpbis-rfc6265bis-02
-     A.4.  draft-ietf-httpbis-rfc6265bis-03
-     A.5.  draft-ietf-httpbis-rfc6265bis-04
-     A.6.  draft-ietf-httpbis-rfc6265bis-05
-     A.7.  draft-ietf-httpbis-rfc6265bis-06
-     A.8.  draft-ietf-httpbis-rfc6265bis-07
-     A.9.  draft-ietf-httpbis-rfc6265bis-08
-     A.10. draft-ietf-httpbis-rfc6265bis-09
-     A.11. draft-ietf-httpbis-rfc6265bis-10
-     A.12. draft-ietf-httpbis-rfc6265bis-11
-     A.13. draft-ietf-httpbis-rfc6265bis-12
-     A.14. draft-ietf-httpbis-rfc6265bis-14
+   Appendix A.  Changes from RFC 6265
    Acknowledgements
    Authors' Addresses
 
@@ -822,21 +808,9 @@ Table of Contents
    cookie        = cookie-string
    cookie-string = cookie-pair *( ";" SP cookie-pair )
 
-   While Section 5.4 of [HTTP] does not define a length limit for header
-   fields it is likely that the web server's implementation does impose
-   a limit; many popular implementations have default limits of 8K.
-   Server SHOULD avoid setting a large number of large cookies such that
-   the final cookie-string would exceed their header field limit.  Not
-   doing so could result in requests to the server failing.
-
    Servers MUST be tolerant of multiple cookie headers.  For example, an
    HTTP/2 [RFC9113] or HTTP/3 [RFC9114] connection might split a cookie
-   header to improve compression.  Servers are free to determine what
-   form this tolerance takes.  For example, the server could process
-   each cookie header individually or the server could concatenate all
-   the cookie headers into one and then process that final, single,
-   header.  The server should be mindful of any header field limits when
-   deciding which approach to take.
+   header to improve compression.
 
 4.2.2.  Semantics
 
@@ -1862,13 +1836,6 @@ Table of Contents
    request as defined in Section 5.2, and the retrieval's type is
    "HTTP".
 
-   Note: Previous versions of this specification required that only one
-   Cookie header field be sent in requests.  This is no longer a
-   requirement.  While this specification requires that a single cookie-
-   string be produced, some user agents may split that string across
-   multiple cookie header fields.  For examples, see Section 8.2.3 of
-   [RFC9113] and Section 4.2.1 of [RFC9114].
-
 5.8.2.  Non-HTTP APIs
 
    The user agent MAY implement "non-HTTP" APIs that can be used to
@@ -2516,7 +2483,7 @@ Table of Contents
 
 9.1.  Cookie
 
-   The permanent message header field registry (see [RFC3864]) needs to
+   The HTTP Field Name Registry (see [HttpFieldNameRegistry]) needs to
    be updated with the following registration:
 
    Header field name:  Cookie
@@ -2531,8 +2498,9 @@ Table of Contents
 
 9.2.  Set-Cookie
 
-   The permanent message header field registry (see [RFC3864]) needs to
-   be updated with the following registration:
+   The permanent message header field registry (see
+   [HttpFieldNameRegistry]) needs to be updated with the following
+   registration:
 
    Header field name:  Set-Cookie
 
@@ -2546,7 +2514,7 @@ Table of Contents
 
 9.3.  Cookie Attribute Registry
 
-   IANA is requested to create the "Cookie Attribute Registry", defining
+   IANA is requested to create the "Cookie Attribute" registry, defining
    the name space of attribute used to control cookies' behavior.  The
    registry should be maintained at https://www.iana.org/assignments/
    cookie-attribute-names (https://www.iana.org/assignments/cookie-
@@ -2688,6 +2656,10 @@ Table of Contents
               October 2008,
               <http://portal.acm.org/citation.cfm?id=1455770.1455782>.
 
+   [HttpFieldNameRegistry]
+              "Hypertext Transfer Protocol (HTTP) Field Name Registry",
+              n.d., <https://www.iana.org/assignments/http-fields/>.
+
    [I-D.ietf-httpbis-cookie-alone]
               West, M., "Deprecate modification of 'secure' cookies from
               non-secure origins", Work in Progress, Internet-Draft,
@@ -2724,11 +2696,6 @@ Table of Contents
               DOI 10.17487/RFC2818, May 2000,
               <https://www.rfc-editor.org/rfc/rfc2818>.
 
-   [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
-              Procedures for Message Header Fields", BCP 90, RFC 3864,
-              DOI 10.17487/RFC3864, September 2004,
-              <https://www.rfc-editor.org/rfc/rfc3864>.
-
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
@@ -2762,327 +2729,73 @@ Table of Contents
               Processing", UNICODE Unicode Technical Standards # 46,
               June 2016, <http://unicode.org/reports/tr46/>.
 
-Appendix A.  Changes
+Appendix A.  Changes from RFC 6265
 
-A.1.  draft-ietf-httpbis-rfc6265bis-00
-
-   *  Port [RFC6265] to Markdown.  No (intentional) normative changes.
-
-A.2.  draft-ietf-httpbis-rfc6265bis-01
-
-   *  Fixes to formatting caused by mistakes in the initial port to
-      Markdown:
-
-      -  https://github.com/httpwg/http-extensions/issues/243
-         (https://github.com/httpwg/http-extensions/issues/243)
-
-      -  https://github.com/httpwg/http-extensions/issues/246
-         (https://github.com/httpwg/http-extensions/issues/246)
-
-   *  Addresses errata 3444 by updating the path-value and extension-av
+   *  Address errata 3444 by updating the path-value andextension-av
       grammar, errata 4148 by updating the day-of-month, year, and time
       grammar, and errata 3663 by adding the requested note.
-      https://www.rfc-editor.org/errata_search.php?rfc=6265
-      (https://www.rfc-editor.org/errata_search.php?rfc=6265)
-
-   *  Dropped Cookie2 and Set-Cookie2 from the IANA Considerations
-      section: https://github.com/httpwg/http-extensions/issues/247
-      (https://github.com/httpwg/http-extensions/issues/247)
-
-   *  Merged the recommendations from [I-D.ietf-httpbis-cookie-alone],
-      removing the ability for a non-secure origin to set cookies with a
-      'secure' flag, and to overwrite cookies whose 'secure' flag is
-      true.
-
-   *  Merged the recommendations from
-      [I-D.ietf-httpbis-cookie-prefixes], adding __Secure- and __Host-
-      cookie name prefix processing instructions.
-
-A.3.  draft-ietf-httpbis-rfc6265bis-02
-
-   *  Merged the recommendations from
-      [I-D.ietf-httpbis-cookie-same-site], adding support for the
-      SameSite attribute.
-
-   *  Closed a number of editorial bugs:
-
-      -  Clarified address bar behavior for SameSite cookies:
-         https://github.com/httpwg/http-extensions/issues/201
-         (https://github.com/httpwg/http-extensions/issues/201)
-
-      -  Added the word "Cookies" to the document's name:
-         https://github.com/httpwg/http-extensions/issues/204
-         (https://github.com/httpwg/http-extensions/issues/204)
-
-      -  Clarified that the __Host- prefix requires an explicit Path
-         attribute: https://github.com/httpwg/http-extensions/issues/222
-         (https://github.com/httpwg/http-extensions/issues/222)
-
-      -  Expanded the options for dealing with third-party cookies to
-         include a brief mention of partitioning based on first-party:
-         https://github.com/httpwg/http-extensions/issues/248
-         (https://github.com/httpwg/http-extensions/issues/248)
-
-      -  Noted that double-quotes in cookie values are part of the
-         value, and are not stripped: https://github.com/httpwg/http-
-         extensions/issues/295 (https://github.com/httpwg/http-
-         extensions/issues/295)
-
-      -  Fixed the "site for cookies" algorithm to return something that
-         makes sense: https://github.com/httpwg/http-extensions/
-         issues/302 (https://github.com/httpwg/http-extensions/
-         issues/302)
-
-A.4.  draft-ietf-httpbis-rfc6265bis-03
-
-   *  Clarified handling of invalid SameSite values:
-      https://github.com/httpwg/http-extensions/issues/389
-      (https://github.com/httpwg/http-extensions/issues/389)
-
-   *  Reflect widespread implementation practice of including a cookie's
-      host-only-flag when calculating its uniqueness:
-      https://github.com/httpwg/http-extensions/issues/199
-      (https://github.com/httpwg/http-extensions/issues/199)
-
-   *  Introduced an explicit "None" value for the SameSite attribute:
-      https://github.com/httpwg/http-extensions/issues/788
-      (https://github.com/httpwg/http-extensions/issues/788)
-
-A.5.  draft-ietf-httpbis-rfc6265bis-04
-
-   *  Allow SameSite cookies to be set for all top-level navigations.
-      https://github.com/httpwg/http-extensions/issues/594
-      (https://github.com/httpwg/http-extensions/issues/594)
-
-   *  Treat Set-Cookie: token as creating the cookie ("", "token"):
-      https://github.com/httpwg/http-extensions/issues/159
-      (https://github.com/httpwg/http-extensions/issues/159)
-
-   *  Reject cookies with neither name nor value (e.g.  Set-Cookie: =
-      and Set-Cookie:: https://github.com/httpwg/http-extensions/
-      issues/159 (https://github.com/httpwg/http-extensions/issues/159)
-
-   *  Clarified behavior of multiple SameSite attributes in a cookie
-      string: https://github.com/httpwg/http-extensions/issues/901
-      (https://github.com/httpwg/http-extensions/issues/901)
-
-A.6.  draft-ietf-httpbis-rfc6265bis-05
-
-   *  Typos and editorial fixes: https://github.com/httpwg/http-
-      extensions/pull/1035 (https://github.com/httpwg/http-extensions/
-      pull/1035), https://github.com/httpwg/http-extensions/pull/1038
-      (https://github.com/httpwg/http-extensions/pull/1038),
-      https://github.com/httpwg/http-extensions/pull/1040
-      (https://github.com/httpwg/http-extensions/pull/1040),
-      https://github.com/httpwg/http-extensions/pull/1047
-      (https://github.com/httpwg/http-extensions/pull/1047).
+      (Section 4.1 and Section 5.1.4)
 
-A.7.  draft-ietf-httpbis-rfc6265bis-06
+   *  Removes Cookie2 and Set-Cookie2 from IANA Considerations.
+      (Section 9)
 
-   *  Editorial fixes: https://github.com/httpwg/http-extensions/
-      issues/1059 (https://github.com/httpwg/http-extensions/
-      issues/1059), https://github.com/httpwg/http-extensions/
-      issues/1158 (https://github.com/httpwg/http-extensions/
-      issues/1158).
-
-   *  Created a registry for cookie attribute names:
-      https://github.com/httpwg/http-extensions/pull/1060
-      (https://github.com/httpwg/http-extensions/pull/1060).
-
-   *  Tweaks to ABNF for cookie-pair and the Cookie header production:
-      https://github.com/httpwg/http-extensions/issues/1074
-      (https://github.com/httpwg/http-extensions/issues/1074),
-      https://github.com/httpwg/http-extensions/issues/1119
-      (https://github.com/httpwg/http-extensions/issues/1119).
+   *  Prohibits non-secure origins from setting cookies with a 'secure'
+      flag or overwriting cookies with this flag.  (Section 5.7)
 
-   *  Fixed serialization for nameless/valueless cookies:
-      https://github.com/httpwg/http-extensions/pull/1143
-      (https://github.com/httpwg/http-extensions/pull/1143).
-
-   *  Converted a normative reference to Mozilla's Public Suffix List
-      [PSL] into an informative reference: https://github.com/httpwg/
-      http-extensions/issues/1159 (https://github.com/httpwg/http-
-      extensions/issues/1159).
-
-A.8.  draft-ietf-httpbis-rfc6265bis-07
-
-   *  Moved instruction to ignore cookies with empty cookie-name and
-      cookie-value from Section 5.6 to Section 5.7 to ensure that they
-      apply to cookies created without parsing a cookie string:
-      https://github.com/httpwg/http-extensions/issues/1234
-      (https://github.com/httpwg/http-extensions/issues/1234).
-
-   *  Add a default enforcement value to the same-site-flag, equivalent
-      to "SameSite=Lax": https://github.com/httpwg/http-extensions/
-      pull/1325 (https://github.com/httpwg/http-extensions/pull/1325).
-
-   *  Require a Secure attribute for "SameSite=None":
-      https://github.com/httpwg/http-extensions/pull/1323
-      (https://github.com/httpwg/http-extensions/pull/1323).
-
-   *  Consider scheme when running the same-site algorithm:
-      https://github.com/httpwg/http-extensions/pull/1324
-      (https://github.com/httpwg/http-extensions/pull/1324).
-
-A.9.  draft-ietf-httpbis-rfc6265bis-08
-
-   *  Define "same-site" for reload navigation requests, e.g. those
-      triggered via user interface elements: https://github.com/httpwg/
-      http-extensions/pull/1384 (https://github.com/httpwg/http-
-      extensions/pull/1384)
-
-   *  Consider redirects when defining same-site:
-      https://github.com/httpwg/http-extensions/pull/1348
-      (https://github.com/httpwg/http-extensions/pull/1348)
-
-   *  Align on using HTML terminology for origins:
-      https://github.com/httpwg/http-extensions/pull/1416
-      (https://github.com/httpwg/http-extensions/pull/1416)
-
-   *  Modify cookie parsing and creation algorithms in Section 5.6 and
-      Section 5.7 to explicitly handle control characters:
-      https://github.com/httpwg/http-extensions/pull/1420
-      (https://github.com/httpwg/http-extensions/pull/1420)
-
-   *  Refactor cookie retrieval algorithm to support non-HTTP APIs:
-      https://github.com/httpwg/http-extensions/pull/1428
-      (https://github.com/httpwg/http-extensions/pull/1428)
-
-   *  Define "Lax-allowing-unsafe" SameSite enforcement mode:
-      https://github.com/httpwg/http-extensions/pull/1435
-      (https://github.com/httpwg/http-extensions/pull/1435)
-
-   *  Consistently use "header field" (vs 'header"):
-      https://github.com/httpwg/http-extensions/pull/1527
-      (https://github.com/httpwg/http-extensions/pull/1527)
-
-A.10.  draft-ietf-httpbis-rfc6265bis-09
-
-   *  Update cookie size requirements: https://github.com/httpwg/http-
-      extensions/pull/1563 (https://github.com/httpwg/http-extensions/
-      pull/1563)
+   *  Introduces cookie prefixes and prohibits nameless cookies from
+      setting a value that would mimic a cookie prefix.  (Section 4.1.3
+      and Section 5.7)
 
-   *  Reject cookies with control characters: https://github.com/httpwg/
-      http-extensions/pull/1576 (https://github.com/httpwg/http-
-      extensions/pull/1576)
+   *  Includes the host-only-flag as part of a cookie’s uniqueness
+      computation.  (Section 5.7)
 
-   *  No longer treat horizontal tab as a control character:
-      https://github.com/httpwg/http-extensions/pull/1589
-      (https://github.com/httpwg/http-extensions/pull/1589)
+   *  Adds the same-site concept and the SameSite attribute.
+      (Section 5.2 and Section 4.1.2.7)
 
-   *  Specify empty domain attribute handling:
-      https://github.com/httpwg/http-extensions/pull/1709
-      (https://github.com/httpwg/http-extensions/pull/1709)
+   *  Establishes a registry for cookie attribute names.  (Section 9.3)
 
-A.11.  draft-ietf-httpbis-rfc6265bis-10
-
-   *  Standardize Max-Age/Expires upper bound:
-      https://github.com/httpwg/http-extensions/pull/1732
-      (https://github.com/httpwg/http-extensions/pull/1732),
-      https://github.com/httpwg/http-extensions/pull/1980
-      (https://github.com/httpwg/http-extensions/pull/1980).
+   *  Improves cookie syntax
 
-   *  Expand on privacy considerations and third-party cookies:
-      https://github.com/httpwg/http-extensions/pull/1878
-      (https://github.com/httpwg/http-extensions/pull/1878)
-
-   *  Specify that no decoding of Set-Cookie line should occur:
-      https://github.com/httpwg/http-extensions/pull/1902
-      (https://github.com/httpwg/http-extensions/pull/1902)
-
-   *  Require ASCII for domain attributes: https://github.com/httpwg/
-      http-extensions/pull/1969 (https://github.com/httpwg/http-
-      extensions/pull/1969)
-
-   *  Typos, formatting and editorial fixes: https://github.com/httpwg/
-      http-extensions/pull/1789 (https://github.com/httpwg/http-
-      extensions/pull/1789), https://github.com/httpwg/http-extensions/
-      pull/1858 (https://github.com/httpwg/http-extensions/pull/1858),
-      https://github.com/httpwg/http-extensions/pull/2069
-      (https://github.com/httpwg/http-extensions/pull/2069).
-
-A.12.  draft-ietf-httpbis-rfc6265bis-11
-
-   *  Remove note to ignore Domain attribute with trailing dot:
-      https://github.com/httpwg/http-extensions/pull/2087
-      (https://github.com/httpwg/http-extensions/pull/2087),
-      https://github.com/httpwg/http-extensions/pull/2092
-      (https://github.com/httpwg/http-extensions/pull/2092).
-
-   *  Remove an inadvertant change to cookie-octet:
-      https://github.com/httpwg/http-extensions/pull/2090
-      (https://github.com/httpwg/http-extensions/pull/2090)
-
-   *  Remove note regarding cookie serialization:
-      https://github.com/httpwg/http-extensions/pull/2165
-      (https://github.com/httpwg/http-extensions/pull/2165)
-
-   *  Add case insensitivity note to Set-Cookie Syntax:
-      https://github.com/httpwg/http-extensions/pull/2167
-      (https://github.com/httpwg/http-extensions/pull/2167)
-
-   *  Add note not to send invalid cookies due to public suffix list
-      changes: https://github.com/httpwg/http-extensions/pull/2215
-      (https://github.com/httpwg/http-extensions/pull/2215)
-
-   *  Add warning to not send nameless cookies:
-      https://github.com/httpwg/http-extensions/pull/2220
-      (https://github.com/httpwg/http-extensions/pull/2220)
-
-   *  Add note regarding Service Worker's computation of "site for
-      cookies": https://github.com/httpwg/http-extensions/pull/2217
-      (https://github.com/httpwg/http-extensions/pull/2217)
-
-   *  Compare cookie name prefixes case-insensitively:
-      https://github.com/httpwg/http-extensions/pull/2236
-      (https://github.com/httpwg/http-extensions/pull/2236)
-
-   *  Update editors and the acknowledgements https://github.com/httpwg/
-      http-extensions/pull/2244 (https://github.com/httpwg/http-
-      extensions/pull/2244)
-
-   *  Prevent nameless cookies with prefixed values
-      https://github.com/httpwg/http-extensions/pull/2251
-      (https://github.com/httpwg/http-extensions/pull/2251)
-
-A.13.  draft-ietf-httpbis-rfc6265bis-12
-
-   *  Advise the reader which section to implement
-      https://github.com/httpwg/http-extensions/pull/2478
-      (https://github.com/httpwg/http-extensions/pull/2478)
-
-   *  Define top-level navigation https://github.com/httpwg/http-
-      extensions/pull/2481 (https://github.com/httpwg/http-extensions/
-      pull/2481)
-
-   *  Use navigables concept https://github.com/httpwg/http-extensions/
-      pull/2478 (https://github.com/httpwg/http-extensions/pull/2478)
-
-A.14.  draft-ietf-httpbis-rfc6265bis-14
-
-   *  Refactor cookie header text https://github.com/httpwg/http-
-      extensions/pull/2753 (https://github.com/httpwg/http-extensions/
-      pull/2753)
-
-   *  Support potentially trustworthy origins https://github.com/httpwg/
-      http-extensions/pull/2759 (https://github.com/httpwg/http-
-      extensions/pull/2759)
-
-   *  Add additional developer warnings for SameSite cookies
-      https://github.com/httpwg/http-extensions/pull/2758
-      (https://github.com/httpwg/http-extensions/pull/2758)
-
-   *  Remove consideration of same-site redirect chain
-      https://github.com/httpwg/http-extensions/pull/2750
-      (https://github.com/httpwg/http-extensions/pull/2750)
-
-   *  Update HTTPSEM to RFC9110 https://github.com/httpwg/http-
-      extensions/pull/2795 (https://github.com/httpwg/http-extensions/
-      pull/2795)
-
-   *  Add multiple cookie header tolerance suggestions & length limit
-      warnings https://github.com/httpwg/http-extensions/pull/2804
-      (https://github.com/httpwg/http-extensions/pull/2804)
+      -  Treats Set-Cookie: token as creating the cookie ("", "token").
+         (Section 5.6)
+
+      -  Rejects cookies without a name nor value.  (Section 5.7)
+
+      -  Specifies how to serialize a nameless/valueless cookie.
+         (Section 5.8.3)
+
+      -  Adjusts ABNF for cookie-pair and the Cookie header production
+         to allow for spaces.  (Section 4.1.1)
+
+      -  Explicitly handle control characters.  (Section 5.6 and
+         Section 5.7)
+
+      -  Specifies how to handle empty domain attributes.  (Section 5.7)
+
+      -  Requires ASCII characters for the domain attribute.
+         (Section 5.7)
+
+   *  Refactors cookie retrieval algorithm to support non-HTTP APIs.
+      (Section 5.8.2)
+
+   *  Limits maximum cookie size.  (Section 5.7)
+
+   *  Limits maximum values for max-age and expire.  (Section 5.6.1 and
+      Section 5.6.2)
+
+   *  Specifies that the Set-Cookie line should not be decoded.
+      (Section 5.6)
+
+   *  Adds an advisory section to assist implementers in deciding which
+      requirements to implement.  (Section 3.2)
+
+   *  Advises against sending invalid cookies due to public suffix list
+      changes.  (Section 5.8.3)
+
+   *  Considers potentially trustworthy origins as "secure".
+      (Section 5.7)
+
+   *  Removes the single cookie header requirement.  (Section 5.8.1)
 
 Acknowledgements
 

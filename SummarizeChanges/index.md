@@ -1,8 +1,9 @@
-# Editor's drafts for ServerSizeAndTolerance branch of [sbingler/http-extensions](https://github.com/sbingler/http-extensions/tree/ServerSizeAndTolerance)
+# Editor's drafts for SummarizeChanges branch of [sbingler/http-extensions](https://github.com/sbingler/http-extensions/tree/SummarizeChanges)
 
 | Draft |     |     |     |
 | ----- | --- | --- | --- |
 | [Resumable Uploads](./draft-ietf-httpbis-resumable-upload.html "Resumable Uploads for HTTP (HTML)") | [plain text](./draft-ietf-httpbis-resumable-upload.txt "Resumable Uploads for HTTP (Text)") | same as main |
+| [Zstd Window Size](./draft-ietf-httpbis-zstd-window-size.html "Window Sizing for Zstandard Content Encoding (HTML)") | [plain text](./draft-ietf-httpbis-zstd-window-size.txt "Window Sizing for Zstandard Content Encoding (Text)") | same as main |
 | [DNS Aliases Proxy-Status](./draft-ietf-httpbis-alias-proxy-status.html "HTTP Proxy-Status Parameter for Next-Hop Aliases (HTML)") | [plain text](./draft-ietf-httpbis-alias-proxy-status.txt "HTTP Proxy-Status Parameter for Next-Hop Aliases (Text)") | same as main |
 | [Optimistic HTTP Upgrade Security](./draft-ietf-httpbis-optimistic-upgrade.html "Security Considerations for Optimistic Use of HTTP Upgrade (HTML)") | [plain text](./draft-ietf-httpbis-optimistic-upgrade.txt "Security Considerations for Optimistic Use of HTTP Upgrade (Text)") | same as main |
 | [The HTTP QUERY Method](./draft-ietf-httpbis-safe-method-w-body.html "The HTTP QUERY Method (HTML)") | [plain text](./draft-ietf-httpbis-safe-method-w-body.txt "The HTTP QUERY Method (Text)") | same as main |

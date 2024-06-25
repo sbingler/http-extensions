@@ -5,10 +5,10 @@
 HTTPBIS                                                      D. Schinazi
 Internet-Draft                                                Google LLC
 Intended status: Standards Track                               D. Oliver
-Expires: 23 December 2024                               Guardian Project
+Expires: 27 December 2024                               Guardian Project
                                                               J. Hoyland
                                                          Cloudflare Inc.
-                                                            21 June 2024
+                                                            25 June 2024
 
 
                 The Concealed HTTP Authentication Scheme
@@ -60,7 +60,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 December 2024.
+   This Internet-Draft will expire on 27 December 2024.
 
 Copyright Notice
 
@@ -83,6 +83,7 @@ Table of Contents
    2.  The Concealed Authentication Scheme
    3.  Client Handling
      3.1.  Key Exporter Context
+       3.1.1.  Public Key Encoding
      3.2.  Key Exporter Output
      3.3.  Signature Computation
    4.  Authentication Parameters
@@ -200,8 +201,8 @@ Table of Contents
    Key ID:  The key ID sent in the k Parameter (see Section 4.1).
 
    Public Key:  The public key used by the server to validate the
-      signature provided by the client (the encoding is described
-      below).
+      signature provided by the client.  Its encoding is described in
+      Section 3.1.1.
 
    Scheme:  The scheme for this request, encoded using the format of the
       scheme portion of a URI as defined in Section 3.1 of [URI].
@@ -229,7 +230,11 @@ Table of Contents
    encoding from Section 16 of [QUIC] and MUST be encoded in the minimum
    number of bytes necessary.
 
-   The encoding of the public key is determined by the Signature
+3.1.1.  Public Key Encoding
+
+   Both the "Public Key" field of the TLS key exporter context (see
+   above) and the a Parameter (see Section 4.2) carry the same public
+   key.  The encoding of the public key is determined by the Signature
    Algorithm in use as follows:
 
    RSASSA-PSS algorithms:  The public key is an RSAPublicKey structure
@@ -298,7 +303,7 @@ Table of Contents
 
                Figure 3: Example Content Covered by Signature
 
-   This constructions mirrors that of the TLS 1.3 CertificateVerify
+   This construction mirrors that of the TLS 1.3 CertificateVerify
    message defined in Section 4.4.3 of [TLS].
 
    The resulting signature is then transmitted to the server using the p
@@ -310,14 +315,14 @@ Table of Contents
 
    All of the byte sequences below are encoded using base64url (see
    Section 5 of [BASE64]) without quotes and without padding.  In other
-   words, these byte sequence authentication parameters values MUST NOT
-   include any characters other then ASCII letters, digits, dash and
-   underscore.
+   words, the values of these byte-sequence authentication parameters
+   MUST NOT include any characters other then ASCII letters, digits,
+   dash and underscore.
 
    The integer below is encoded without a minus and without leading
-   zeroes.  In other words, the integer authentication parameters value
-   MUST NOT include any characters other than digits, and MUST NOT start
-   with a zero unless the full value is "0".
+   zeroes.  In other words, the value of this integer authentication
+   parameter MUST NOT include any characters other than digits, and MUST
+   NOT start with a zero unless the full value is "0".
 
    Using the syntax from [ABNF]:
 
@@ -328,37 +333,37 @@ Table of Contents
 
 4.1.  The k Parameter
 
-   The REQUIRED "k" (key ID) parameter is a byte sequence that
+   The REQUIRED "k" (key ID) Parameter is a byte sequence that
    identifies which key the client wishes to use to authenticate.  This
-   can for example be used to point to an entry into a server-side
+   can, for example, be used to point to an entry in a server-side
    database of known keys.
 
 4.2.  The a Parameter
 
-   The REQUIRED "a" (public key) parameter is a byte sequence that
-   contains the public key used by the server to validate the signature
+   The REQUIRED "a" (public key) Parameter is a byte sequence that
+   specifies the public key used by the server to validate the signature
    provided by the client.  This avoids key confusion issues (see
    [SEEMS-LEGIT]).  The encoding of the public key is described in
-   Section 3.1.
+   Section 3.1.1.
 
 4.3.  The p Parameter
 
-   The REQUIRED "p" (proof) parameter is a byte sequence that specifies
+   The REQUIRED "p" (proof) Parameter is a byte sequence that specifies
    the proof that the client provides to attest to possessing the
    credential that matches its key ID.
 
 4.4.  The s Parameter
 
-   The REQUIRED "s" (signature) parameter is an integer that specifies
-   the signature scheme used to compute the proof transmitted in the "p"
-   directive.  Its value is an integer between 0 and 65535 inclusive
+   The REQUIRED "s" (signature) Parameter is an integer that specifies
+   the signature scheme used to compute the proof transmitted in the p
+   Parameter.  Its value is an integer between 0 and 65535 inclusive
    from the IANA "TLS SignatureScheme" registry maintained at
    <https://www.iana.org/assignments/tls-parameters/tls-
    parameters.xhtml#tls-signaturescheme>.
 
 4.5.  The v Parameter
 
-   The REQUIRED "v" (verification) parameter is a byte sequence that
+   The REQUIRED "v" (verification) Parameter is a byte sequence that
    specifies the verification that the client provides to attest to
    possessing the key exporter output (see Section 3.2 for details).
    This avoids issues with signature schemes where certain keys can
@@ -541,6 +546,12 @@ Table of Contents
    resources.  It also allows authentication without the client leaking
    the presence of authentication to observers due to clear-text TLS
    Client Hello extensions.
+
+   Since the freshness described above is provided by a TLS key
+   exporter, it can be as old as the underlying TLS connection.  Servers
+   can require better freshness by forcing clients to create new
+   connections using mechanisms such as the GOAWAY frame (see
+   Section 5.2 of [HTTP/3]).
 
    The authentication proofs described in this document are not bound to
    individual HTTP requests; if the key is used for authentication

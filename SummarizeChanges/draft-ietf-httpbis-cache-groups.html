@@ -4,16 +4,14 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>HTTP Proxy-Status Parameter for Next-Hop Aliases</title>
-<meta content="Tommy Pauly" name="author">
-<meta content="
-       This document defines the  next-hop-aliases  HTTP Proxy-Status Parameter. This parameter carries
-the list of aliases and canonical names an intermediary received during DNS resolution as part
-of establishing a connection to the next hop. 
-    " name="description">
+<title>HTTP Cache Groups</title>
+<meta content="Mark Nottingham" name="author">
+<meta content='
+       This specification introduces a means of describing the relationships between stored responses in HTTP caches, "grouping" them by associating a stored response with one or more opaque strings. 
+    ' name="description">
 <meta content="xml2rfc 3.21.0" name="generator">
-<meta content="proxy status" name="keyword">
-<meta content="draft-ietf-httpbis-alias-proxy-status-latest" name="ietf.draft">
+<meta content="Internet-Draft" name="keyword">
+<meta content="draft-ietf-httpbis-cache-groups-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.21.0
     Python 3.12.3
@@ -30,7 +28,7 @@ of establishing a connection to the next hop.
     six 1.16.0
     wcwidth 0.2.13
 -->
-<link href="draft-ietf-httpbis-alias-proxy-status.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-httpbis-cache-groups.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -1026,12 +1024,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">DNS Aliases Proxy-Status</td>
+<td class="center">HTTP Cache Groups</td>
 <td class="right">June 2024</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Pauly</td>
-<td class="center">Expires 23 December 2024</td>
+<td class="left">Nottingham</td>
+<td class="center">Expires 27 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1039,32 +1037,29 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">HTTP</dd>
+<dd class="workgroup">Network Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-httpbis-alias-proxy-status-latest</dd>
+<dd class="internet-draft">draft-ietf-httpbis-cache-groups-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-06-21" class="published">21 June 2024</time>
+<time datetime="2024-06-25" class="published">25 June 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-12-23">23 December 2024</time></dd>
+<dd class="expires"><time datetime="2024-12-27">27 December 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">T. Pauly</div>
-<div class="org">Apple, Inc.</div>
+      <div class="author-name">M. Nottingham</div>
 </div>
 </dd>
 </dl>
 </div>
-<h1 id="title">HTTP Proxy-Status Parameter for Next-Hop Aliases</h1>
+<h1 id="title">HTTP Cache Groups</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines the <code>next-hop-aliases</code> HTTP Proxy-Status Parameter. This parameter carries
-the list of aliases and canonical names an intermediary received during DNS resolution as part
-of establishing a connection to the next hop.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This specification introduces a means of describing the relationships between stored responses in HTTP caches, "grouping" them by associating a stored response with one or more opaque strings.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1072,14 +1067,14 @@ of establishing a connection to the next hop.<a href="#section-abstract-1" class
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-httpbis-alias-proxy-status/">https://datatracker.ietf.org/doc/draft-ietf-httpbis-alias-proxy-status/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-httpbis-cache-groups/">https://datatracker.ietf.org/doc/draft-ietf-httpbis-cache-groups/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">
         Discussion of this document takes place on the
         HTTP Working Group mailing list (<span><a href="mailto:ietf-http-wg@w3.org">mailto:ietf-http-wg@w3.org</a></span>),
         which is archived at <span><a href="https://lists.w3.org/Archives/Public/ietf-http-wg/">https://lists.w3.org/Archives/Public/ietf-http-wg/</a></span>.
         Working Group information can be found at <span><a href="https://httpwg.org/">https://httpwg.org/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 <p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/httpwg/http-extensions/labels/alias-proxy-status">https://github.com/httpwg/http-extensions/labels/alias-proxy-status</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/httpwg/http-extensions/labels/cache-groups">https://github.com/httpwg/http-extensions/labels/cache-groups</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1100,7 +1095,7 @@ of establishing a connection to the next hop.<a href="#section-abstract-1" class
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1133,26 +1128,39 @@ of establishing a connection to the next hop.<a href="#section-abstract-1" class
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-requirements" class="internal xref">Requirements</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-notational-conventions" class="internal xref">Notational Conventions</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-next-hop-aliases-parameter" class="internal xref">next-hop-aliases Parameter</a></p>
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-the-cache-groups-response-h" class="internal xref">The Cache-Groups Response Header Field</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-encoding-special-characters" class="internal xref">Encoding special characters</a></p>
+                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-identifying-grouped-respons" class="internal xref">Identifying Grouped Responses</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-cache-behaviour" class="internal xref">Cache Behaviour</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2.2.1">
+                    <p id="section-toc.1-1.2.2.2.2.1.1"><a href="#section-2.2.1" class="auto internal xref">2.2.1</a>.  <a href="#name-invalidation" class="internal xref">Invalidation</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-implementation-consideratio" class="internal xref">Implementation Considerations</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-the-cache-group-invalidatio" class="internal xref">The Cache-Group-Invalidation Response Header Field</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-http-field-names" class="internal xref">HTTP Field Names</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-references" class="internal xref">References</a></p>
@@ -1166,7 +1174,10 @@ of establishing a connection to the next hop.<a href="#section-abstract-1" class
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1177,200 +1188,149 @@ of establishing a connection to the next hop.<a href="#section-abstract-1" class
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">The Proxy-Status HTTP response field <span>[<a href="#PROXY-STATUS" class="cite xref">PROXY-STATUS</a>]</span> allows intermediaries to convey
-information about how they handled the request in HTTP responses sent to clients.
-It defines a set of parameters that provide information, such as the name of the next
-hop.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2"><span>[<a href="#PROXY-STATUS" class="cite xref">PROXY-STATUS</a>]</span> defines a <code>next-hop</code> parameter, which can contain a hostname,
-IP address, or alias of the next hop. This parameter can contain only one such item,
-so it cannot be used to communicate a chain of aliases encountered during DNS resolution
-when connecting to the next hop.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Knowing the full chain of names that were used during DNS resolution via CNAME records
-<span>[<a href="#DNS" class="cite xref">DNS</a>]</span> is particularly useful for clients of forward proxies, in which the
-client is requesting to connect to a specific target hostname using the CONNECT method
-<span>[<a href="#HTTP" class="cite xref">HTTP</a>]</span> or UDP proxying <span>[<a href="#CONNECT-UDP" class="cite xref">CONNECT-UDP</a>]</span>. CNAME records can be used to
-"cloak" hosts that perform tracking or malicious activity behind more innocuous hostnames,
-and clients such as web browsers use the chain of DNS names to influence behavior like cookie
-usage policies <span>[<a href="#COOKIES" class="cite xref">COOKIES</a>]</span> or blocking of malicious hosts.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document allows clients to receive the CNAME chain of DNS names for the next hop
-by including the list of names in a new <code>next-hop-aliases</code> Proxy-Status parameter.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<div id="requirements">
+<p id="section-1-1">HTTP caching <span>[<a href="#HTTP-CACHING" class="cite xref">HTTP-CACHING</a>]</span> operates at the granularity of a single resource; the freshness of one stored response does not affect that of others. This granularity can make caching more efficient -- for example, when a page is composed of many assets that have different requirements for caching.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">However, there are also cases where the relationship between stored responses could be used to improve cache efficiency.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">For example, it is often necessary to invalidate a set of related resources. This might be because a state-changing request has side effects on other resources, or it might be purely for administrative convenience (e.g., "invalidate this part of the site"). Grouping responses together provides a dedicated way to express these relationships, instead of relying on things like URL structure.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">In addition to sharing invalidation events, the relationships indicated by grouping can also be used by caches to optimise their operation; for example, it could be used to inform the operation of cache eviction algorithms.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5"><a href="#cache-groups" class="auto internal xref">Section 2</a> introduces a means of describing the relationships between a set of stored responses in HTTP caches by associating them with one or more opaque strings. It also describes how caches can use that information to apply invalidation events to members of a group.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6"><a href="#cache-group-invalidation" class="auto internal xref">Section 3</a> introduces one new source of such events: a HTTP response header that allows a state-changing response to trigger a group invalidation.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">These mechanisms operate within a single cache, across the stored responses associated with a single origin server. They do not address this issues of synchronising state between multiple caches (e.g., in a hierarchy or mesh), nor do they facilitate association of stored responses from disparate origins.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<div id="notational-conventions">
 <section id="section-1.1">
-        <h3 id="name-requirements">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements" class="section-name selfRef">Requirements</a>
+        <h3 id="name-notational-conventions">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-notational-conventions" class="section-name selfRef">Notational Conventions</a>
         </h3>
-<p id="section-1.1-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
-"MAY", and "OPTIONAL" in this document are to be interpreted as
+<p id="section-1.1-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">This specification uses the following terminology from <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>: List, String, Parameter.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="parameter">
+<div id="cache-groups">
 <section id="section-2">
-      <h2 id="name-next-hop-aliases-parameter">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-next-hop-aliases-parameter" class="section-name selfRef">next-hop-aliases Parameter</a>
+      <h2 id="name-the-cache-groups-response-h">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-cache-groups-response-h" class="section-name selfRef">The Cache-Groups Response Header Field</a>
       </h2>
-<p id="section-2-1">The <code>next-hop-aliases</code> parameter's value is a String <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span> that contains
-one or more DNS names in a comma-separated list. The items in the list include all alias names and
-canonical names received in CNAME records <span>[<a href="#DNS" class="cite xref">DNS</a>]</span> during the course of resolving the next hop's
-hostname using DNS, and MAY include the original requested hostname itself. The names ought to
-appear in the order in which they were received in DNS, for the sake of consistency. If there
-are multiple CNAME records in the chain, the first name in the <code>next-hop-aliases</code> list would
-be the value in the CNAME record for the original hostname, and the final name in the
-<code>next-hop-aliases</code> list would be the name that ultimately resolved to one or more addresses.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">The list of DNS names in <code>next-hop-aliases</code> uses a comma (",") as a separator between names.
-Note that if a comma is included in a name itself, the comma must be encoded as described in
-<a href="#encoding" class="auto internal xref">Section 2.1</a>.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">For example, consider a proxy "proxy.example.net" that receives the following records when
-performing DNS resolution for the next hop "host.example.com":<a href="#section-2-3" class="pilcrow">¶</a></p>
-<div class="lang-dns-example sourcecode" id="section-2-4">
+<p id="section-2-1">The Cache-Groups HTTP Response Header is a List of Strings <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>. Each member of the list is an opaque value that identifies a group that the response belongs to.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-2-2">
 <pre>
-host.example.com.           CNAME   tracker.example.com.
-tracker.example.com.        CNAME   service1.example.com.
-service1.example.com.       AAAA    2001:db8::1
-</pre><a href="#section-2-4" class="pilcrow">¶</a>
+HTTP/1.1 200 OK
+Content-Type: application/javascript
+Cache-Control: max-age=3600
+Cache-Groups: "scripts"
+</pre><a href="#section-2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-2-5">The proxy could include the following proxy status in its response:<a href="#section-2-5" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="section-2-6">
-<pre>
-Proxy-Status: proxy.example.net; next-hop="2001:db8::1";
-    next-hop-aliases="tracker.example.com,service1.example.com"
-</pre><a href="#section-2-6" class="pilcrow">¶</a>
-</div>
-<p id="section-2-7">This indicates that proxy.example.net, which used the IP address "2001:db8::1" as the next hop
-for this request, encountered the names "tracker.example.com" and "service1.example.com"
-in the DNS resolution chain. Note that while this example includes both the <code>next-hop</code> and
-<code>next-hop-aliases</code> parameters, <code>next-hop-aliases</code> can be included without including <code>next-hop</code>.<a href="#section-2-7" class="pilcrow">¶</a></p>
-<p id="section-2-8">The proxy can also include the name of the next hop as the first item in the list. This is
-particularly useful for reverse proxies when clients would not otherwise know the name of the
-next hop, and the <code>next-hop</code> header is used to convey an IP address.<a href="#section-2-8" class="pilcrow">¶</a></p>
-<p id="section-2-9">For example, consider a proxy "reverseproxy.example.net" that receives the following records
-when performing DNS resolution for the next hop "host.example.com":<a href="#section-2-9" class="pilcrow">¶</a></p>
-<div class="lang-dns-example sourcecode" id="section-2-10">
-<pre>
-host2.example.com.          CNAME   service2.example.com.
-service2.example.com.       AAAA    2001:db8::2
-</pre><a href="#section-2-10" class="pilcrow">¶</a>
-</div>
-<p id="section-2-11">The proxy could include the following proxy status in its response:<a href="#section-2-11" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="section-2-12">
-<pre>
-Proxy-Status: reverseproxy.example.net; next-hop="2001:db8::2";
-    next-hop-aliases="host2.example.com,service2.example.com"
-</pre><a href="#section-2-12" class="pilcrow">¶</a>
-</div>
-<p id="section-2-13">The <code>next-hop-aliases</code> parameter only applies when DNS was used to resolve the next hop's name, and
-does not apply in all situations. Clients can use the information in this parameter to determine
-how to use the connection established through the proxy, but need to gracefully handle situations
-in which this parameter is not present.<a href="#section-2-13" class="pilcrow">¶</a></p>
-<p id="section-2-14">The proxy MAY send the empty string ("") as the value of <code>next-hop-aliases</code> to indicate that
-no CNAME records were encountered when resolving the next hop's name.<a href="#section-2-14" class="pilcrow">¶</a></p>
-<div id="encoding">
+<p id="section-2-3">The ordering of members is not significant. Unrecognised Parameters <span class="bcp14">MUST</span> be ignored.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">Implementations <span class="bcp14">MUST</span> support at least 128 groups in a field value, with up to at least 128 characters in each member. Note that generic limitations on HTTP field lengths may constrain the size of this field value in practice.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<div id="identify">
 <section id="section-2.1">
-        <h3 id="name-encoding-special-characters">
-<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-encoding-special-characters" class="section-name selfRef">Encoding special characters</a>
+        <h3 id="name-identifying-grouped-respons">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-identifying-grouped-respons" class="section-name selfRef">Identifying Grouped Responses</a>
         </h3>
-<p id="section-2.1-1">DNS names commonly just contain alphanumeric characters and hyphens ("-"), although they
-are allowed to contain any character (<span>[<a href="#RFC1035" class="cite xref">RFC1035</a>], <a href="https://rfc-editor.org/rfc/rfc1035#section-3.1" class="relref">Section 3.1</a></span>), including a comma. To
-prevent commas or other special characters in names leading to incorrect parsing,
-any characters that appear in names in this list that do not belong to the set of URI
-Unreserved Characters (<span>[<a href="#RFC3986" class="cite xref">RFC3986</a>], <a href="https://rfc-editor.org/rfc/rfc3986#section-2.3" class="relref">Section 2.3</a></span>) MUST be percent-encoded as
-defined in <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>], <a href="https://rfc-editor.org/rfc/rfc3986#section-2.1" class="relref">Section 2.1</a></span>.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">For example, consider the DNS name <code>comma,name.example.com</code>. This name would be encoded
-within a <code>next-hop-aliases</code> parameter as follows:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="section-2.1-3">
-<pre>
-Proxy-Status: proxy.example.net; next-hop="2001:db8::1";
-    next-hop-aliases="comma%2Cname.example.com,service1.example.com"
-</pre><a href="#section-2.1-3" class="pilcrow">¶</a>
+<p id="section-2.1-1">Two responses stored in the same cache are considered to have the same group when all of the following conditions are met:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.1-2">
+<li id="section-2.1-2.1">
+            <p id="section-2.1-2.1.1">They both contain a Cache-Groups response header field that contains the same String (in any position in the List), when compared character-by-character.<a href="#section-2.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-2.2">
+            <p id="section-2.1-2.2.1">The both share the same URI origin (per <span><a href="https://rfc-editor.org/rfc/rfc9110#section-4.3.1" class="relref">Section 4.3.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-2.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+</section>
 </div>
-<p id="section-2.1-4">It is also possible for a DNS name to include a period character (".") within a label,
-instead of as a label separator. In this case, the period character MUST be first escaped
-as "\.". Since the "\" character itself will be percent-encoded, the name
-"dot\.label.example.com" would be encoded within a <code>next-hop-aliases</code> parameter as follows:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="section-2.1-5">
-<pre>
-Proxy-Status: proxy.example.net; next-hop="2001:db8::1";
-    next-hop-aliases="dot%5C.label.example.com,service1.example.com"
-</pre><a href="#section-2.1-5" class="pilcrow">¶</a>
-</div>
-<p id="section-2.1-6">Upon parsing this name, "dot%5C.label" MUST be treated as a single label.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
-<p id="section-2.1-7">Similarly the "\" character in a label MUST be escaped as "\\" and then percent-encoded.
-Other uses of "\" MUST NOT appear in the label after percent-decoding. For example,
-if there is a DNS name "backslash\name.example.com", it would first be escaped as
-"backslash\\name.example.com", and then percent-encoded as follows:<a href="#section-2.1-7" class="pilcrow">¶</a></p>
-<div class="lang-http-message sourcecode" id="section-2.1-8">
-<pre>
-Proxy-Status: proxy.example.net; next-hop="2001:db8::1";
-    next-hop-aliases="backslash%5C%5Cname.example.com,service1.example.com"
-</pre><a href="#section-2.1-8" class="pilcrow">¶</a>
+<div id="cache-behaviour">
+<section id="section-2.2">
+        <h3 id="name-cache-behaviour">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-cache-behaviour" class="section-name selfRef">Cache Behaviour</a>
+        </h3>
+<div id="invalidation">
+<section id="section-2.2.1">
+          <h4 id="name-invalidation">
+<a href="#section-2.2.1" class="section-number selfRef">2.2.1. </a><a href="#name-invalidation" class="section-name selfRef">Invalidation</a>
+          </h4>
+<p id="section-2.2.1-1">A cache that invalidates a stored response <span class="bcp14">MAY</span> invalidate any stored responses that share groups (per <a href="#identify" class="auto internal xref">Section 2.1</a>) with that response.<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-2">Cache extensions can explicitly strengthen the requirement above. For example, a targeted cache control header field <span>[<a href="#TARGETED" class="cite xref">TARGETED</a>]</span> might specify that caches processing it are required to invalidate such responses.<a href="#section-2.2.1-2" class="pilcrow">¶</a></p>
+</section>
 </div>
 </section>
 </div>
 </section>
 </div>
-<div id="implementation-considerations">
+<div id="cache-group-invalidation">
 <section id="section-3">
-      <h2 id="name-implementation-consideratio">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
+      <h2 id="name-the-cache-group-invalidatio">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-the-cache-group-invalidatio" class="section-name selfRef">The Cache-Group-Invalidation Response Header Field</a>
       </h2>
-<p id="section-3-1">In order to include the <code>next-hop-aliases</code> parameter, a proxy needs to have access to the chain
-of alias names and canonical names received in CNAME records.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Implementations ought to note that the full chain of names might not be available in common DNS
-resolution APIs, such as <code>getaddrinfo</code> <span>[<a href="#POSIX" class="cite xref">POSIX</a>]</span>. <code>getaddrinfo</code> does have an option for <code>AI_CANONNAME</code>
-(<span><a href="https://rfc-editor.org/rfc/rfc3493#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC3493" class="cite xref">RFC3493</a>]</span>), but this will only return the last name in the chain
-(the canonical name), not the alias names.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">An implementation MAY include incomplete information in the <code>next-hop-aliases</code> parameter to accommodate cases where it is unable to include the full chain, such as only including the canonical name if the implementation can only use <code>getaddrinfo</code> as described above.<a href="#section-3-3" class="pilcrow">¶</a></p>
-</section>
+<p id="section-3-1">The Cache-Group-Invalidation response header field is a List of Strings <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>. Each member of the list is an opaque value that identifies a group that the response invalidates, per <a href="#invalidation" class="auto internal xref">Section 2.2.1</a>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">For example, a POST request that has side effects on two cache groups could indicate that stored responses associated with either or both of those groups should be invalidated with:<a href="#section-3-2" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-3-3">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/html
+Cache-Group-Invalidation: "eurovision-results", "kylie-minogue"
+</pre><a href="#section-3-3" class="pilcrow">¶</a>
 </div>
-<div id="sec-considerations">
-<section id="section-4">
-      <h2 id="name-security-considerations">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
-      </h2>
-<p id="section-4-1">The <code>next-hop-aliases</code> parameter does not include any DNSSEC information or imply that DNSSEC was used.
-The information included in the parameter can only be trusted to be valid insofar as the client
-trusts the proxy to provide accurate information. This information is intended to be used as
-a hint, and SHOULD NOT be used for making security decisions about the identity of a resource accessed
-through the proxy.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Inspecting CNAME chains can be used to detect cloaking of trackers or malicious hosts. However, the
-CNAME records could be omitted by a recursive or authoritative resolver that is trying to hide this form of cloaking.
-In particular, recursive or authoritative resolvers can omit these records for both clients directly performing DNS name
-resolution and proxies performing DNS name resolution on behalf of client. A malicious proxy could
-also choose to not report these CNAME chains in order to hide the cloaking. In general, clients can
-trust information included (or not included) in the <code>next-hop-aliases</code> parameter to the degree
-that the proxy and any resolvers used by the proxy are trusted.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-3-4">The Cache-Group-Invalidation header field <span class="bcp14">MUST</span> be ignored on responses to requests that have a safe method (e.g., GET; see <span><a href="https://rfc-editor.org/rfc/rfc9110#section-9.2.1" class="relref">Section 9.2.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">A cache that receives a Cache-Group-Invalidation header field on a response to an unsafe request <span class="bcp14">MAY</span> invalidate any stored responses that share groups (per <a href="#identify" class="auto internal xref">Section 2.1</a>) with any of the listed groups.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">Cache extensions can explicitly strengthen the requirement above. For example, a targeted cache control header field <span>[<a href="#TARGETED" class="cite xref">TARGETED</a>]</span> might specify that caches processing it are required to respect the Cache-Group-Invalidation signal.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">The ordering of members is not significant. Unrecognised Parameters <span class="bcp14">MUST</span> be ignored.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-8">Implementations <span class="bcp14">MUST</span> support at least 128 groups in a field value, with up to at least 128 characters in each member. Note that generic limitations on HTTP field lengths may constrain the size of this field value in practice.<a href="#section-3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-5">
+<section id="section-4">
       <h2 id="name-iana-considerations">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-5-1">This document registers the "next-hop-aliases" parameter
-in the "HTTP Proxy-Status Parameters" registry
-&lt;<span><a href="https://www.iana.org/assignments/http-proxy-status">https://www.iana.org/assignments/http-proxy-status</a></span>&gt;.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-5-2">
-        <dt id="section-5-2.1">Name:</dt>
-        <dd style="margin-left: 1.5em" id="section-5-2.2">
-          <p id="section-5-2.2.1">next-hop-aliases<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-5-2.3">Description:</dt>
-        <dd style="margin-left: 1.5em" id="section-5-2.4">
-          <p id="section-5-2.4.1">A string containing one or more DNS aliases or canonical names used to establish a
-proxied connection to the next hop.<a href="#section-5-2.4.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-5-2.5">Reference:</dt>
-        <dd style="margin-left: 1.5em" id="section-5-2.6">
-          <p id="section-5-2.6.1">This document<a href="#section-5-2.6.1" class="pilcrow">¶</a></p>
-</dd>
-      <dd class="break"></dd>
-</dl>
+<p id="section-4-1">IANA should perform the following tasks:<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="http-field-names">
+<section id="section-4.1">
+        <h3 id="name-http-field-names">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-http-field-names" class="section-name selfRef">HTTP Field Names</a>
+        </h3>
+<p id="section-4.1-1">Enter the following into the Hypertext Transfer Protocol (HTTP) Field Name Registry:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.1-2.1">
+            <p id="section-4.1-2.1.1">Field Name: Cache-Groups<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.2">
+            <p id="section-4.1-2.2.1">Status: permanent<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.3">
+            <p id="section-4.1-2.3.1">Reference: RFC nnnn<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.4">
+            <p id="section-4.1-2.4.1">Comments:<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.5">
+            <p id="section-4.1-2.5.1">Field Name: Cache-Group-Invalidation<a href="#section-4.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.6">
+            <p id="section-4.1-2.6.1">Status: permanent<a href="#section-4.1-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.7">
+            <p id="section-4.1-2.7.1">Reference: RFC nnnn<a href="#section-4.1-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.1-2.8">
+            <p id="section-4.1-2.8.1">Comments:<a href="#section-4.1-2.8.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-5">
+      <h2 id="name-security-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-5-1">This mechanism allows resources that share an origin to invalidate each other. Because of this,
+origins that represent multiple parties (sometimes referred to as "shared hosting") might allow
+one party to group its resources with those of others, or to send signals which have side effects upon them.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">Shared hosts that wish to mitigate these risks can control access to the header fields defined in this specification.<a href="#section-5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-6">
@@ -1383,29 +1343,17 @@ proxied connection to the next hop.<a href="#section-5-2.4.1" class="pilcrow">¶
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="CONNECT-UDP">[CONNECT-UDP]</dt>
-        <dd>
-<span class="refAuthor">Schinazi, D.</span>, <span class="refTitle">"Proxying UDP in HTTP"</span>, <span class="seriesInfo">RFC 9298</span>, <span class="seriesInfo">DOI 10.17487/RFC9298</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9298">https://www.rfc-editor.org/rfc/rfc9298</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="DNS">[DNS]</dt>
-        <dd>
-<span class="refAuthor">Mockapetris, P.</span>, <span class="refTitle">"Domain names - concepts and facilities"</span>, <span class="seriesInfo">STD 13</span>, <span class="seriesInfo">RFC 1034</span>, <span class="seriesInfo">DOI 10.17487/RFC1034</span>, <time datetime="1987-11" class="refDate">November 1987</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1034">https://www.rfc-editor.org/rfc/rfc1034</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="HTTP">[HTTP]</dt>
         <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="PROXY-STATUS">[PROXY-STATUS]</dt>
+<dt id="HTTP-CACHING">[HTTP-CACHING]</dt>
         <dd>
-<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Sikora</span>, <span class="refTitle">"The Proxy-Status HTTP Response Header Field"</span>, <span class="seriesInfo">RFC 9209</span>, <span class="seriesInfo">DOI 10.17487/RFC9209</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9209">https://www.rfc-editor.org/rfc/rfc9209</a>&gt;</span>. </dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Caching"</span>, <span class="seriesInfo">STD 98</span>, <span class="seriesInfo">RFC 9111</span>, <span class="seriesInfo">DOI 10.17487/RFC9111</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9111">https://www.rfc-editor.org/rfc/rfc9111</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC3986">[RFC3986]</dt>
-        <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
@@ -1413,7 +1361,7 @@ proxied connection to the next hop.<a href="#section-5-2.4.1" class="pilcrow">¶
 <dd class="break"></dd>
 <dt id="STRUCTURED-FIELDS">[STRUCTURED-FIELDS]</dt>
       <dd>
-<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 8941</span>, <span class="seriesInfo">DOI 10.17487/RFC8941</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8941">https://www.rfc-editor.org/rfc/rfc8941</a>&gt;</span>. </dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-sfbis-06</span>, <time datetime="2024-04-21" class="refDate">21 April 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-sfbis-06">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-sfbis-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1424,37 +1372,38 @@ proxied connection to the next hop.<a href="#section-5-2.4.1" class="pilcrow">¶
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="COOKIES">[COOKIES]</dt>
-        <dd>
-<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 6265</span>, <span class="seriesInfo">DOI 10.17487/RFC6265</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6265">https://www.rfc-editor.org/rfc/rfc6265</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="POSIX">[POSIX]</dt>
-        <dd>
-<span class="refAuthor">IEEE</span>, <span class="refTitle">"Standard for Information Technology Portable Operating System Interface (POSIX(R)) Base Specifications, Issue 7"</span>, <span class="seriesInfo">DOI 10.1109/ieeestd.2013.6506091</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="http://ieeexplore.ieee.org/servlet/opac?punumber=6506089">http://ieeexplore.ieee.org/servlet/opac?punumber=6506089</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC1035">[RFC1035]</dt>
-        <dd>
-<span class="refAuthor">Mockapetris, P.</span>, <span class="refTitle">"Domain names - implementation and specification"</span>, <span class="seriesInfo">STD 13</span>, <span class="seriesInfo">RFC 1035</span>, <span class="seriesInfo">DOI 10.17487/RFC1035</span>, <time datetime="1987-11" class="refDate">November 1987</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1035">https://www.rfc-editor.org/rfc/rfc1035</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC3493">[RFC3493]</dt>
+<dt id="TARGETED">[TARGETED]</dt>
       <dd>
-<span class="refAuthor">Gilligan, R.</span>, <span class="refAuthor">Thomson, S.</span>, <span class="refAuthor">Bound, J.</span>, <span class="refAuthor">McCann, J.</span>, and <span class="refAuthor">W. Stevens</span>, <span class="refTitle">"Basic Socket Interface Extensions for IPv6"</span>, <span class="seriesInfo">RFC 3493</span>, <span class="seriesInfo">DOI 10.17487/RFC3493</span>, <time datetime="2003-02" class="refDate">February 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3493">https://www.rfc-editor.org/rfc/rfc3493</a>&gt;</span>. </dd>
+<span class="refAuthor">Ludin, S.</span>, <span class="refAuthor">Nottingham, M.</span>, and <span class="refAuthor">Y. Wu</span>, <span class="refTitle">"Targeted HTTP Cache Control"</span>, <span class="seriesInfo">RFC 9213</span>, <span class="seriesInfo">DOI 10.17487/RFC9213</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9213">https://www.rfc-editor.org/rfc/rfc9213</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 </section>
-<div id="authors-addresses">
+<div id="acknowledgements">
 <section id="appendix-A">
+      <h2 id="name-acknowledgements">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-A-1">Thanks to Stephen Ludin for his review and suggestions.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
       <h2 id="name-authors-address">
 <a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Tommy Pauly</span></div>
-<div dir="auto" class="left"><span class="org">Apple, Inc.</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Mark Nottingham</span></div>
+<div dir="auto" class="left"><span class="street-address">Prahran</span></div>
+<div dir="auto" class="left"><span class="country-name">Australia</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:tpauly@apple.com" class="email">tpauly@apple.com</a>
+<a href="mailto:mnot@mnot.net" class="email">mnot@mnot.net</a>
+</div>
+<div class="url">
+<span>URI:</span>
+<a href="https://www.mnot.net/" class="url">https://www.mnot.net/</a>
 </div>
 </address>
 </section>
