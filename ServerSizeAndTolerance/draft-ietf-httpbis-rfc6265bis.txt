@@ -2522,7 +2522,7 @@ Table of Contents
 
 9.1.  Cookie
 
-   The permanent message header field registry (see [RFC3864]) needs to
+   The HTTP Field Name Registry (see [HttpFieldNameRegistry]) needs to
    be updated with the following registration:
 
    Header field name:  Cookie
@@ -2537,8 +2537,9 @@ Table of Contents
 
 9.2.  Set-Cookie
 
-   The permanent message header field registry (see [RFC3864]) needs to
-   be updated with the following registration:
+   The permanent message header field registry (see
+   [HttpFieldNameRegistry]) needs to be updated with the following
+   registration:
 
    Header field name:  Set-Cookie
 
@@ -2552,7 +2553,7 @@ Table of Contents
 
 9.3.  Cookie Attribute Registry
 
-   IANA is requested to create the "Cookie Attribute Registry", defining
+   IANA is requested to create the "Cookie Attribute" registry, defining
    the name space of attribute used to control cookies' behavior.  The
    registry should be maintained at https://www.iana.org/assignments/
    cookie-attribute-names (https://www.iana.org/assignments/cookie-
@@ -2694,6 +2695,10 @@ Table of Contents
               October 2008,
               <http://portal.acm.org/citation.cfm?id=1455770.1455782>.
 
+   [HttpFieldNameRegistry]
+              "Hypertext Transfer Protocol (HTTP) Field Name Registry",
+              n.d., <https://www.iana.org/assignments/http-fields/>.
+
    [I-D.ietf-httpbis-cookie-alone]
               West, M., "Deprecate modification of 'secure' cookies from
               non-secure origins", Work in Progress, Internet-Draft,
@@ -2729,11 +2734,6 @@ Table of Contents
    [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
               DOI 10.17487/RFC2818, May 2000,
               <https://www.rfc-editor.org/rfc/rfc2818>.
-
-   [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
-              Procedures for Message Header Fields", BCP 90, RFC 3864,
-              DOI 10.17487/RFC3864, September 2004,
-              <https://www.rfc-editor.org/rfc/rfc3864>.
 
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
@@ -3085,6 +3085,10 @@ A.14.  draft-ietf-httpbis-rfc6265bis-14
    *  Update HTTPSEM to RFC9110 https://github.com/httpwg/http-
       extensions/pull/2795 (https://github.com/httpwg/http-extensions/
       pull/2795)
+
+   *  Update IANA Considerations https://github.com/httpwg/http-
+      extensions/pull/2793 (https://github.com/httpwg/http-extensions/
+      pull/2793)
 
    *  Add multiple cookie header tolerance suggestions & length limit
       warnings https://github.com/httpwg/http-extensions/pull/2804
