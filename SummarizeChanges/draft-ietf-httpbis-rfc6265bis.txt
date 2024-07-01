@@ -6,8 +6,8 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                              M. West, Ed.
 Obsoletes: 6265 (if approved)                                 Google LLC
 Intended status: Standards Track                        J. Wilander, Ed.
-Expires: 27 December 2024                                     Apple, Inc
-                                                            25 June 2024
+Expires: 2 January 2025                                       Apple, Inc
+                                                             1 July 2024
 
 
                 Cookies: HTTP State Management Mechanism
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 December 2024.
+   This Internet-Draft will expire on 2 January 2025.
 
 Copyright Notice
 
@@ -2731,28 +2731,26 @@ Table of Contents
 
 Appendix A.  Changes from RFC 6265
 
-   *  Address errata 3444 by updating the path-value andextension-av
-      grammar, errata 4148 by updating the day-of-month, year, and time
-      grammar, and errata 3663 by adding the requested note.
-      (Section 4.1 and Section 5.1.4)
-
-   *  Removes Cookie2 and Set-Cookie2 from IANA Considerations.
-      (Section 9)
-
-   *  Prohibits non-secure origins from setting cookies with a 'secure'
-      flag or overwriting cookies with this flag.  (Section 5.7)
+   *  Adds the same-site concept and the SameSite attribute.
+      (Section 5.2 and Section 4.1.2.7)
 
    *  Introduces cookie prefixes and prohibits nameless cookies from
       setting a value that would mimic a cookie prefix.  (Section 4.1.3
       and Section 5.7)
 
+   *  Prohibits non-secure origins from setting cookies with a 'secure'
+      flag or overwriting cookies with this flag.  (Section 5.7)
+
+   *  Limits maximum cookie size.  (Section 5.7)
+
+   *  Limits maximum values for max-age and expire.  (Section 5.6.1 and
+      Section 5.6.2)
+
    *  Includes the host-only-flag as part of a cookie’s uniqueness
       computation.  (Section 5.7)
 
-   *  Adds the same-site concept and the SameSite attribute.
-      (Section 5.2 and Section 4.1.2.7)
-
-   *  Establishes a registry for cookie attribute names.  (Section 9.3)
+   *  Considers potentially trustworthy origins as "secure".
+      (Section 5.7)
 
    *  Improves cookie syntax
 
@@ -2778,11 +2776,6 @@ Appendix A.  Changes from RFC 6265
    *  Refactors cookie retrieval algorithm to support non-HTTP APIs.
       (Section 5.8.2)
 
-   *  Limits maximum cookie size.  (Section 5.7)
-
-   *  Limits maximum values for max-age and expire.  (Section 5.6.1 and
-      Section 5.6.2)
-
    *  Specifies that the Set-Cookie line should not be decoded.
       (Section 5.6)
 
@@ -2792,10 +2785,12 @@ Appendix A.  Changes from RFC 6265
    *  Advises against sending invalid cookies due to public suffix list
       changes.  (Section 5.8.3)
 
-   *  Considers potentially trustworthy origins as "secure".
-      (Section 5.7)
-
    *  Removes the single cookie header requirement.  (Section 5.8.1)
+
+   *  Address errata 3444 by updating the path-value andextension-av
+      grammar, errata 4148 by updating the day-of-month, year, and time
+      grammar, and errata 3663 by adding the requested note.
+      (Section 4.1 and Section 5.1.4)
 
 Acknowledgements
 
