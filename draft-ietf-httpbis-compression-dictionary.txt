@@ -5,8 +5,8 @@
 HTTP                                                      P. Meenan, Ed.
 Internet-Draft                                                Google LLC
 Intended status: Standards Track                           Y. Weiss, Ed.
-Expires: 13 January 2025                                     Shopify Inc
-                                                            12 July 2024
+Expires: 8 February 2025                                     Shopify Inc
+                                                           7 August 2024
 
 
                     Compression Dictionary Transport
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2025.
+   This Internet-Draft will expire on 8 February 2025.
 
 Copyright Notice
 
@@ -114,9 +114,24 @@ Table of Contents
    compression schemes that support using external dictionaries (e.g.,
    Brotli [RFC7932] and Zstandard [RFC8878]).
 
+   Using a previous version of a file as a dictionary for a newer
+   version enables delivery of a delta-compressed version of the
+   changes, usually resulting in significantly smaller responses than
+   can be achieved by compression alone.
+
+   If several resources share common patterns in their responses then it
+   can be useful to reference an external dictionary that contains those
+   common patterns, effectively compressing them out of the responses.
+   Some examples of this are common template HTML for similar pages
+   across a site and common keys and values in API calls.
+
    This document describes the HTTP headers used for negotiating
    dictionary usage and registers media types for content encoding
    Brotli and Zstandard using a negotiated dictionary.
+
+   The negotiation of dictionary usage leverages HTTP's content
+   negotiation (see Section 12 of [HTTP]) and is usable with all
+   versions of HTTP.
 
 1.1.  Notational Conventions
 
@@ -154,11 +169,14 @@ Table of Contents
    that provides the URL Pattern [URLPattern] to use for request
    matching.
 
-   The URL Pattern used for matching does not support using Regular
+   The URL Pattern used for matching does not support using regular
    expressions.
 
-   The following algorithm will return TRUE for a valid match pattern
-   and FALSE for an invalid pattern that MUST NOT be used:
+   The following algorithm is used to validate that a given String value
+   is a valid URL Pattern that does not use regular expressions and is
+   for the same Origin (Section 4.3.1 of [HTTP]) as the dictionary.  It
+   will return TRUE for a valid match pattern and FALSE for an invalid
+   pattern that MUST NOT be used:
 
    1.  Let MATCH be the value of "match" for the given dictionary.
 
@@ -232,8 +250,8 @@ Table of Contents
      match="/product/*", match-dest=("document")
 
    Would specify matching any document request for a URL with a path
-   prefix of /product/ on the same Origin [RFC6454] as the original
-   request.
+   prefix of /product/ on the same Origin (Section 4.3.1 of [HTTP]) as
+   the original request.
 
 2.1.5.2.  Versioned Directories
 
@@ -241,8 +259,7 @@ Table of Contents
 
    Use-As-Dictionary: match="/app/*/main.js"
 
-   Would match main.js in any directory under /app/ and expiring as a
-   dictionary in one year.
+   Would match main.js in any directory under /app/.
 
 2.2.  Available-Dictionary
 
@@ -276,8 +293,8 @@ Table of Contents
    to match an outgoing request from a client to the available
    dictionaries.
 
-   Dictionaries MUST have been served from the same Origin [RFC6454] as
-   the outgoing request to match.
+   Dictionaries MUST have been served from the same Origin
+   (Section 4.3.1 of [HTTP]) as the outgoing request to match.
 
    To see if an outbound request matches a given dictionary, the
    following algorithm will return TRUE for a successful match and FALSE
@@ -741,10 +758,6 @@ Table of Contents
               DOI 10.17487/RFC6265, April 2011,
               <https://www.rfc-editor.org/rfc/rfc6265>.
 
-   [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
-              DOI 10.17487/RFC6454, December 2011,
-              <https://www.rfc-editor.org/rfc/rfc6454>.
-
    [RFC7457]  Sheffer, Y., Holz, R., and P. Saint-Andre, "Summarizing
               Known Attacks on Transport Layer Security (TLS) and
               Datagram TLS (DTLS)", RFC 7457, DOI 10.17487/RFC7457,
@@ -753,11 +766,6 @@ Table of Contents
    [RFC7932]  Alakuijala, J. and Z. Szabadka, "Brotli Compressed Data
               Format", RFC 7932, DOI 10.17487/RFC7932, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7932>.
-
-   [RFC8792]  Watsen, K., Auerswald, E., Farrel, A., and Q. Wu,
-              "Handling Long Lines in Content of Internet-Drafts and
-              RFCs", RFC 8792, DOI 10.17487/RFC8792, June 2020,
-              <https://www.rfc-editor.org/rfc/rfc8792>.
 
    [RFC8878]  Collet, Y. and M. Kucherawy, Ed., "Zstandard Compression
               and the 'application/zstd' Media Type", RFC 8878,

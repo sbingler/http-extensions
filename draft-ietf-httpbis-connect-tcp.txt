@@ -4,8 +4,8 @@
 
 httpbis                                                   B. M. Schwartz
 Internet-Draft                                      Meta Platforms, Inc.
-Intended status: Standards Track                            12 July 2024
-Expires: 13 January 2025
+Intended status: Standards Track                           7 August 2024
+Expires: 8 February 2025
 
 
              Template-Driven HTTP CONNECT Proxying for TCP
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2025.
+   This Internet-Draft will expire on 8 February 2025.
 
 Copyright Notice
 
@@ -64,19 +64,19 @@ Table of Contents
      3.3.  Use of Relevant Headers
        3.3.1.  Origin-scoped Headers
        3.3.2.  Authentication Headers
-     3.4.  Relationship to the Capsule Protocol
+       3.3.3.  Use of the Capsule Protocol
    4.  Additional Connection Setup Behaviors
      4.1.  Latency optimizations
      4.2.  Conveying metadata
    5.  Applicability
      5.1.  Servers
      5.2.  Clients
-     5.3.  Multi-purpose proxies
    6.  Security Considerations
    7.  Operational Considerations
    8.  IANA Considerations
      8.1.  New Upgrade Token
      8.2.  New MASQUE Default Template
+     8.3.  New Capsule Type
    9.  References
      9.1.  Normative References
      9.2.  Informative References
@@ -107,27 +107,18 @@ Table of Contents
 
    HTTP clients can be configured to use proxies by selecting a proxy
    hostname, a port, and whether to use a security protocol.  However,
-   CONNECT requests using the proxy do not carry this configuration
-   information.  Instead, they only indicate the hostname and port of
-   the target.  This prevents any HTTP server from hosting multiple
-   distinct proxy services, as the server cannot distinguish them by
-   path (as with distinct resources) or by origin (as in "virtual
-   hosting").
+   Classic HTTP CONNECT requests using the proxy do not carry this
+   configuration information.  Instead, they only indicate the hostname
+   and port of the target.  This prevents any HTTP server from hosting
+   multiple distinct proxy services, as the server cannot distinguish
+   them by path (as with distinct resources) or by origin (as in
+   "virtual hosting").
 
    The absence of an explicit origin for the proxy also rules out the
    usual defenses against server port misdirection attacks (see
    Section 7.4 of [RFC9110]) and creates ambiguity about the use of
    origin-scoped response header fields (e.g., "Alt-Svc" [RFC7838],
    "Strict-Transport-Security" [RFC6797]).
-
-   Classic HTTP CONNECT proxies can be used to reach a target host that
-   is specified as a domain name or an IP address.  However, because
-   only a single target host can be specified, proxy-driven Happy
-   Eyeballs and cross-IP fallback can only be used when the host is a
-   domain name.  For IP-targeted requests to succeed, the client must
-   know which address families are supported by the proxy via some out-
-   of-band mechanism, or open multiple independent CONNECT requests and
-   abandon any that prove unnecessary.
 
 1.3.  Overview
 
@@ -149,15 +140,11 @@ Table of Contents
 
    A template-driven TCP transport proxy for HTTP is identified by a URI
    Template [RFC6570] containing variables named "target_host" and
-   "tcp_port".  The client substitutes the destination host and port
-   number into these variables to produce the request URI.
-
-   The "target_host" variable MUST be a domain name, an IP address
-   literal, or a list of IP addresses.  The "tcp_port" variable MUST be
-   a single integer.  If "target_host" is a list (as in Section 3.2.1 of
-   [RFC6570]), the server SHOULD perform the same connection procedure
-   as if these IP addresses had been returned in response to A and AAAA
-   queries for a domain name.
+   "target_port".  This URI Template and its variable values MUST meet
+   all the same requirements as for UDP proxying ([RFC9298], Section 2),
+   and are subject to the same validation rules.  The client MUST
+   substitute the destination host and port number into this template to
+   produce the request URI.
 
 3.1.  In HTTP/1.1
 
@@ -180,9 +167,9 @@ Table of Contents
       expansion of the proxy's URI Template.
 
    If the request is well-formed and permissible, the proxy MUST attempt
-   the TCP connection before sending any response status code other than
-   "100 (Continue)" (see Section 4.2).  If the TCP connection is
-   successful, the response SHALL be as follows:
+   to establish the TCP connection before sending any response status
+   code other than "100 (Continue)" (see Section 4.2).  If the TCP
+   connection is successful, the response SHALL be as follows:
 
    *  The HTTP status code SHALL be "101 (Switching Protocols)".
 
@@ -211,7 +198,7 @@ Table of Contents
 
    Client                                                 Proxy
 
-   GET /proxy?target_host=192.0.2.1&tcp_port=443 HTTP/1.1
+   GET /proxy?target_host=192.0.2.1&target_port=443 HTTP/1.1
    Host: example.com
    Connection: Upgrade
    Upgrade: connect-tcp
@@ -255,7 +242,7 @@ Table of Contents
    :method = CONNECT
    :scheme = https
    :authority = request-proxy.example
-   :path = /proxy?target_host=192.0.2.1,2001:db8::1&tcp_port=443
+   :path = /proxy?target_host=2001%3Adb8%3A%3A1&target_port=443
    :protocol = connect-tcp
    ...
 
@@ -304,16 +291,27 @@ Table of Contents
    client to avoid waiting for a "401 (Unauthorized)" response before
    each new connection through the proxy.
 
-3.4.  Relationship to the Capsule Protocol
+3.3.3.  Use of the Capsule Protocol
 
-   Unlike the datagram-oriented templated HTTP proxying specifications
-   [CONNECT-UDP][CONNECT-IP], this specification does not make use of
-   the Capsule Protocol [RFC9297].  A future specification could define
-   a procedure for performing TCP proxying using the Capsule Protocol,
-   but no such procedure is defined here.
+   In this specification, use of the Capsule Protocol [RFC9297] is
+   OPTIONAL.  Clients MAY request use of the Capsule Protocol by
+   including a "Capsule-Protocol: ?1" header field in the request.
 
-   When implementing this specification, clients and servers MUST NOT
-   send a "Capsule-Protocol: ?1" header field.
+   Server support for the Capsule Protocol is also OPTIONAL.  If the
+   request includes "Capsule-Protocol: ?1", and the server does not
+   support the Capsule Protocol, the server MUST respond with a 4xx
+   (Client Error) status and a "Capsule-Protocol: ?0" response header
+   field, and MUST discard any data received on this request stream.
+   Upon receiving such a response, the client MUST retry the request
+   without the Capsule Protocol and MAY disable use of the Capsule
+   Protocol with this URI Template for the remainder of the session.
+
+   When using the Capsule Protocol, TCP payload data is sent in the
+   payload of a new Capsule Type named DATA (Section 8.3).  The ordered
+   concatenation of DATA capsule payloads has the same semantics as what
+   would have been sent on the data stream if the Capsule Protocol were
+   not in use.  It is applicable whenever use of the Capsule Protocol is
+   optional.
 
 4.  Additional Connection Setup Behaviors
 
@@ -388,7 +386,7 @@ Table of Contents
 
    In some cases, it is valuable to allow "connect-tcp" clients to reach
    "connect-tcp"-only proxies when using a legacy configuration method
-   that cannot convey a URI template.  To support this arrangement,
+   that cannot convey a URI Template.  To support this arrangement,
    clients SHOULD treat certain errors during classic HTTP CONNECT as
    indications that the proxy might only support "connect-tcp":
 
@@ -406,29 +404,12 @@ Table of Contents
    "connect-tcp":
 
    https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
-                       /tcp/{target_host}/{tcp_port}/
+                    /tcp/{target_host}/{target_port}/
 
                    Figure 3: Registered default template
 
    If this request succeeds, the client SHOULD record a preference for
    "connect-tcp" to avoid further retry delays.
-
-5.3.  Multi-purpose proxies
-
-   The names of the variables in the URI Template uniquely identify the
-   capabilities of the proxy.  Undefined variables are permitted in URI
-   Templates, so a single template can be used for multiple purposes.
-
-   Multipurpose templates can be useful when a single client may benefit
-   from access to multiple complementary services (e.g., TCP and UDP),
-   or when the proxy is used by a variety of clients with different
-   needs.
-
-   https://proxy.example/{?target_host,tcp_port,target_port,
-                           target,ipproto,dns}
-
-      Figure 4: Example multipurpose template for a combined TCP, UDP,
-                        and IP proxy and DoH server
 
 6.  Security Considerations
 
@@ -479,6 +460,9 @@ Table of Contents
 
    *  Reference: (This document)
 
+   For interoperability testing of this draft version, implementations
+   SHALL use the value "connect-tcp-05".
+
 8.2.  New MASQUE Default Template
 
    IF APPROVED, IANA is requested to add the following entry to the
@@ -491,6 +475,27 @@ Table of Contents
              +--------------+--------------+-----------------+
 
                                   Table 1
+
+8.3.  New Capsule Type
+
+   IF APPROVED, IANA is requested to add the following entry to the
+   "HTTP Capsule Types" registry:
+
+    +=======+=========+===========+============+============+=========+
+    | Value | Capsule | Status    | Reference  | Change     | Contact |
+    |       | Type    |           |            | Controller |         |
+    +=======+=========+===========+============+============+=========+
+    | (TBD) | DATA    | permanent | (This      | IETF       | HTTPBIS |
+    |       |         |           | document), |            |         |
+    |       |         |           | Section    |            |         |
+    |       |         |           | 3.3.3      |            |         |
+    +-------+---------+-----------+------------+------------+---------+
+
+                                  Table 2
+
+   For this draft version of the protocol, the Capsule Type value
+   0xb739a6d0 shall be used provisionally for testing, under the name
+   "DATA-05".
 
 9.  References
 
@@ -546,6 +551,10 @@ Table of Contents
    [RFC9220]  Hamilton, R., "Bootstrapping WebSockets with HTTP/3",
               RFC 9220, DOI 10.17487/RFC9220, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9220>.
+
+   [RFC9298]  Schinazi, D., "Proxying UDP in HTTP", RFC 9298,
+              DOI 10.17487/RFC9298, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9298>.
 
 9.2.  Informative References
 

@@ -6,8 +6,8 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                              M. West, Ed.
 Obsoletes: 6265 (if approved)                                 Google LLC
 Intended status: Standards Track                        J. Wilander, Ed.
-Expires: 13 January 2025                                      Apple, Inc
-                                                            12 July 2024
+Expires: 8 February 2025                                      Apple, Inc
+                                                           7 August 2024
 
 
                 Cookies: HTTP State Management Mechanism
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2025.
+   This Internet-Draft will expire on 8 February 2025.
 
 Copyright Notice
 
@@ -188,8 +188,9 @@ Table of Contents
    policy" used by web browsers isolates content retrieved via different
    ports.
 
-   There are two audiences for this specification: developers of cookie-
-   generating servers and developers of cookie-consuming user agents.
+   This specification applies to developers of both cookie-producing
+   servers and cookie-consuming user agents.  Section 3.2 helps to
+   clarify the intended target audience for each implementation type.
 
    To maximize interoperability with user agents, servers SHOULD limit
    themselves to the well-behaved profile defined in Section 4 when
@@ -434,7 +435,7 @@ Table of Contents
 
    An implementer should choose Section 4 whenever cookies are created
    and will be sent to a user agent, such as a web browser.  These
-   implementations are frequently referred to as Servers by the spec but
+   implementations are frequently referred to as servers by the spec but
    that term includes anything which primarily produces cookies.  Some
    potential examples:
 
@@ -724,6 +725,9 @@ Table of Contents
    requests.  If the "SameSite" attribute's value is something other
    than these three known keywords, the attribute's value will be
    subject to a default enforcement mode that is equivalent to "Lax".
+   If a user agent uses "Lax-allowing-unsafe" enforcement (See
+   Section 5.6.7.2) then this default enforcement mode will instead be
+   equivalent to "Lax-allowing-unsafe".
 
    The "SameSite" attribute affects cookie creation as well as delivery.
    Cookies which assert "SameSite=Lax" or "SameSite=Strict" cannot be
@@ -1170,7 +1174,7 @@ Table of Contents
    The normative requirements for the prefixes are detailed in the
    storage model algorithm defined in Section 5.7.
 
-   This is because some servers will process cookie case-insensitively,
+   This is because some servers will process cookies case-insensitively,
    resulting in them unintentionally miscapitalizing and accepting
    miscapitalized prefixes.
 
@@ -1766,7 +1770,8 @@ Table of Contents
             attribute-name of "Path", and the cookie's path is /.
 
    22.  If the cookie-name is empty and either of the following
-        conditions are true, abort these steps and ignore the cookie:
+        conditions are true, abort these steps and ignore the cookie
+        entirely:
 
         *  the cookie-value begins with a case-insensitive match for the
            string "__Secure-"
@@ -1917,7 +1922,7 @@ Table of Contents
           NOTE: The notion of a "secure" connection is not defined by
           this document.  Typically, user agents consider a connection
           secure if the connection makes use of transport-layer
-          security, such as SSL or TLS, or if host is trusted.  For
+          security, such as SSL or TLS, or if the host is trusted.  For
           example, most user agents consider "https" to be a scheme that
           denotes a secure protocol and "localhost" to be trusted host.
 
@@ -1990,9 +1995,9 @@ Table of Contents
    be enforced in Section 5.6.
 
    Servers SHOULD use as few and as small cookies as possible to avoid
-   reaching these implementation limits and to minimize network
-   bandwidth due to the Cookie header field being included in every
-   request.
+   reaching these implementation limits, minimize network bandwidth due
+   to the Cookie header field being included in every request, and to
+   avoid reaching server header field limits (See Section 4.2.1).
 
    Servers SHOULD gracefully degrade if the user agent fails to return
    one or more cookies in the Cookie header field because the user agent
@@ -2365,12 +2370,13 @@ Table of Contents
 
    Understanding how and when a request is considered same-site is also
    important in order to properly design a site for SameSite cookies.
-   For example, if a top-level request is made to a sensitive page that
-   request will be considered cross-site and SameSite cookies won’t be
-   sent; that page’s sub-resources requests, however, are same-site and
-   would receive SameSite cookies.  Sites can avoid inadvertently
-   allowing access to these sub-resources by returning an error for the
-   initial page request if it doesn’t include the appropriate cookies.
+   For example, if a cross-site top-level request is made to a sensitive
+   page that request will be considered cross-site and SameSite=Strict
+   cookies won’t be sent; that page’s sub-resources requests, however,
+   are same-site and would receive SameSite=Strict cookies.  Sites can
+   avoid inadvertently allowing access to these sub-resources by
+   returning an error for the initial page request if it doesn’t include
+   the appropriate cookies.
 
    Developers are strongly encouraged to deploy the usual server-side
    defenses (CSRF tokens, ensuring that "safe" HTTP methods are
@@ -2763,7 +2769,7 @@ Appendix A.  Changes from RFC 6265
       setting a value that would mimic a cookie prefix.  (Section 4.1.3
       and Section 5.7)
 
-   *  Prohibits non-secure origins from setting cookies with a 'secure'
+   *  Prohibits non-secure origins from setting cookies with a Secure
       flag or overwriting cookies with this flag.  (Section 5.7)
 
    *  Limits maximum cookie size.  (Section 5.7)
