@@ -1,0 +1,644 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-09-17T00:43:07.672319+00:00",
+  "repo": "sbingler/http-extensions",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "MDExOlB1bGxSZXF1ZXN0MzczMzgzNzUy",
+      "title": "Update draft-ietf-httpbis-rfc6265bis.md",
+      "url": "https://github.com/sbingler/http-extensions/pull/1",
+      "state": "CLOSED",
+      "author": "sbingler",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Addressed comments on b0e7653a027fba1ebc6441a895f9155f0291bfd9\r\nMoving to a pull request for further review because it makes more sense.",
+      "createdAt": "2020-02-10T22:22:09Z",
+      "updatedAt": "2022-09-09T20:53:39Z",
+      "baseRepository": "sbingler/http-extensions",
+      "baseRefName": "master",
+      "baseRefOid": "d1de1e6d7a5d892214158afd5486159b9acc3e87",
+      "headRepository": "sbingler/http-extensions",
+      "headRefName": "sbingler-patch-1",
+      "headRefOid": "117ef08a0bfcfeeb153a0b0a31b84228449408bc",
+      "closedAt": "2021-03-04T23:44:12Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "body": "Closing as this was integrated in via https://github.com/sbingler/cookie-incrementalism",
+          "createdAt": "2021-03-04T23:44:12Z",
+          "updatedAt": "2021-03-04T23:44:12Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDIzOTEz",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "davidben",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "I left a few comments, but this otherwise LGTM. Thanks!",
+          "createdAt": "2020-02-11T21:52:40Z",
+          "updatedAt": "2020-02-11T23:07:56Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "Super nitpicky nitpick: it looks like the rest of this file uses plain `'` instead of `\u2019`. No idea if the tooling cares. (I assume Docs autoconverted it.)",
+              "createdAt": "2020-02-11T21:52:40Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 22,
+              "body": "Maybe replace \"both the same\" with \"are the same origin\"? Doesn't hugely matter but \"same origin\" is a phrase that's often associated with origins.",
+              "createdAt": "2020-02-11T21:54:22Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "Nit: comma before return in \"If ..., return true\" here and below.",
+              "createdAt": "2020-02-11T21:55:26Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 17,
+              "body": "Newlines between numbered list elements seems to appease markdown.",
+              "createdAt": "2020-02-11T22:13:31Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 30,
+              "body": "Apparently `[FETCH]` works, but let's do `{{FETCH}}` to match.",
+              "createdAt": "2020-02-11T22:16:58Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "Let's have this just say something like \"Note: The port [...] is not considered.\". Then move the WebSockets note to modify the algorithm below.\r\n\r\nThere, rather than restarting the text in Fetch out of context, perhaps something like:\r\n\r\n1. At the top of the file, in the `informative` section, add a line `RFC6455:` to cite WebSockets under informative references (this is just a note, so I don't think it needs to be normative).\r\n\r\n2. Add text to the tune of:\r\n\r\nNote: The request's URL when establishing a WebSockets connection {{RFC6455}} has scheme \"http\" or \"https\", rather than \"ws\" or \"wss\". {{FETCH}} maps schemes when constructing the request. This allows WebSockets requests to treated as same-site.",
+              "createdAt": "2020-02-11T22:27:26Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 52,
+              "body": "Optional: I would probably just say that it's an origin, here and throughout. It seems weird to expand out the two cases when nothing in the IETF spec actually says these are the two kinds of origins. Also if the top-level URL is an iframe sandbox, it might be an opaque origin that you didn't create.\r\n\r\nWDYT?",
+              "createdAt": "2020-02-11T22:37:01Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 80,
+              "body": "s/a a/a/",
+              "createdAt": "2020-02-11T22:49:16Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 53,
+              "body": "There is some overlap with https://github.com/whatwg/html/pull/4966. No need to do anything now, but when we publish this PR, I think it's worth pointing this out and whether we should align things. (Maybe a request client has a top-level origin plus a \"same-site with ancestors\" boolean to handle the recursive ancestry business.)\r\n\r\nThough it's unclear to me whether this is defining it for a document or a request's client or what.",
+              "createdAt": "2020-02-11T23:00:05Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 95,
+              "body": "RFC6454 says \"generate a fresh globally unique identifier and return that value.\" I'd suggest using that so it's clear that this identifier should be different from others.",
+              "createdAt": "2020-02-11T23:01:32Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 127,
+              "body": "Ditto",
+              "createdAt": "2020-02-11T23:02:08Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 110,
+              "body": "(Hopefully we can double-key these so this oddity no longer matters. As things stand, this feature is... kinda weird.)",
+              "createdAt": "2020-02-11T23:02:48Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 167,
+              "body": "I think it's worth spelling out http vs https specifically. Perhaps: [...], \"SameSite\" cookies can help to protect https origins against a network attacker that is impersonating a corresponding http origin.\r\n\r\n(I believe this should be \"that\" rather than \"which\"?)",
+              "createdAt": "2020-02-11T23:07:18Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDY3MzI4",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:17:29Z",
+          "updatedAt": "2020-02-11T23:17:29Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "Yeah, that was docs being \"helpful\". There are a few other uses of `\u2019` scattered throughout the file that I'll update as well.",
+              "createdAt": "2020-02-11T23:17:29Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDY3NzU0",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:18:28Z",
+          "updatedAt": "2020-02-11T23:18:28Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "SG. I also just noticed that I ended that line with a `;`, whoops habit.",
+              "createdAt": "2020-02-11T23:18:28Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDY5MjA4",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:21:56Z",
+          "updatedAt": "2020-02-11T23:21:56Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "Done",
+              "createdAt": "2020-02-11T23:21:56Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDY5NDcw",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:22:33Z",
+          "updatedAt": "2020-02-11T23:22:33Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "SG",
+              "createdAt": "2020-02-11T23:22:33Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDc3NzM2",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "davidben",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:37:56Z",
+          "updatedAt": "2020-02-11T23:37:57Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "Relating to \"requests\" being a specific term, \"This allows WebSockets requests to treated as same-site.\" probably wasn't that great. Perhaps:\r\n\r\nThis allows same-site cookies to be sent when creating a WebSocket from an http or https document.\r\n\r\nOr perhaps:\r\n\r\nThis allows same-site cookies to be sent with WebSockets.",
+              "createdAt": "2020-02-11T23:37:56Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDc3NzU3",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:37:57Z",
+          "updatedAt": "2020-02-11T23:37:57Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "That makes sense to me, flows better too.",
+              "createdAt": "2020-02-11T23:37:57Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MDk3NjY3",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:50:24Z",
+          "updatedAt": "2020-02-11T23:50:25Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Done",
+              "createdAt": "2020-02-11T23:50:24Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MTAzNTQ1",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-11T23:54:04Z",
+          "updatedAt": "2020-02-11T23:54:04Z",
+          "comments": [
+            {
+              "originalPosition": 80,
+              "body": "Nice catch.",
+              "createdAt": "2020-02-11T23:54:04Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MTA3MjU2",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T00:02:26Z",
+          "updatedAt": "2020-02-12T00:02:26Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "That's a good point.",
+              "createdAt": "2020-02-12T00:02:26Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MTA3OTE4",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T00:04:27Z",
+          "updatedAt": "2020-02-12T00:04:27Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "I don't disagree. I changed some instances to just be \"origin\" but there were other cases where the paragraph seemed to be summarizing the algorithm; in those I left the distinction.",
+              "createdAt": "2020-02-12T00:04:27Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MTA4MDUw",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T00:04:51Z",
+          "updatedAt": "2020-02-12T00:04:51Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "I'll make a note during the offical PR.",
+              "createdAt": "2020-02-12T00:04:51Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MTA4MzY0",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T00:05:48Z",
+          "updatedAt": "2020-02-12T00:05:49Z",
+          "comments": [
+            {
+              "originalPosition": 127,
+              "body": "Done",
+              "createdAt": "2020-02-12T00:05:48Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3MTA5MDM3",
+          "commit": {
+            "abbreviatedOid": "6b90263"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T00:07:45Z",
+          "updatedAt": "2020-02-12T00:07:46Z",
+          "comments": [
+            {
+              "originalPosition": 167,
+              "body": "SGTM",
+              "createdAt": "2020-02-12T00:07:45Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3NzYzOTc3",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "krgovind",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T20:27:51Z",
+          "updatedAt": "2020-02-12T20:27:51Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Please add a reference for when registrable domains can be null (https://url.spec.whatwg.org/#host-registrable-domain or equivalent).",
+              "createdAt": "2020-02-12T20:27:51Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3NzY0Nzk1",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "krgovind",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T20:29:14Z",
+          "updatedAt": "2020-02-12T20:29:14Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "Perhaps add a reference linking \"freshly generated globally unique identifier\" to opaque origins?",
+              "createdAt": "2020-02-12T20:29:14Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3NzU3ODU3",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T20:17:24Z",
+          "updatedAt": "2020-02-12T20:29:20Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "This might accidently return true for cases where we don't want it to\r\nA= https://github.io\r\nB= https://github.io\r\n\r\nThis should return false because the registrable domain of A & B is null, but with this algorithm we fall through and just check that they're the same which will return true.",
+              "createdAt": "2020-02-12T20:17:24Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "The concept of null-ness doesn't exist yet",
+              "createdAt": "2020-02-12T20:22:27Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3ODE4NzM0",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T21:59:00Z",
+          "updatedAt": "2020-02-12T21:59:00Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Captured by krgovind's comment. Closing.",
+              "createdAt": "2020-02-12T21:59:00Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3ODM2MzQz",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T22:29:46Z",
+          "updatedAt": "2020-02-12T22:29:47Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Added a definition for null further up the doc.",
+              "createdAt": "2020-02-12T22:29:46Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3ODM2NDQ0",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T22:29:58Z",
+          "updatedAt": "2020-02-12T22:29:58Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "Fixed this.",
+              "createdAt": "2020-02-12T22:29:58Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzU3ODM2NTY1",
+          "commit": {
+            "abbreviatedOid": "655fd96"
+          },
+          "author": "sbingler",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-02-12T22:30:12Z",
+          "updatedAt": "2020-02-12T22:30:12Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "Defined this further up the doc.",
+              "createdAt": "2020-02-12T22:30:12Z",
+              "updatedAt": "2020-02-12T22:32:27Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTg1MjAwMTY2",
+      "title": "Update fork from main repo",
+      "url": "https://github.com/sbingler/http-extensions/pull/2",
+      "state": "MERGED",
+      "author": "sbingler",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-03-04T23:41:36Z",
+      "updatedAt": "2021-03-04T23:42:57Z",
+      "baseRepository": "sbingler/http-extensions",
+      "baseRefName": "master",
+      "baseRefOid": "d1de1e6d7a5d892214158afd5486159b9acc3e87",
+      "headRepository": "httpwg/http-extensions",
+      "headRefName": "main",
+      "headRefOid": "8af45dd31de74506e0ed2fb01076c857a7b7d73b",
+      "closedAt": "2021-03-04T23:42:57Z",
+      "mergedAt": "2021-03-04T23:42:57Z",
+      "mergedBy": "sbingler",
+      "mergeCommit": {
+        "oid": "23776d049eaa132bbc1139ca198549eb753d9463"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDODju5Js47a5S7",
+      "title": "RFC6265bis: Add warning that servers should not send nameless cookies\u2026",
+      "url": "https://github.com/sbingler/http-extensions/pull/3",
+      "state": "MERGED",
+      "author": "sbingler",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026 (#2220)\r\n\r\n* Add warning that servers should not send nameless cookies\r\n\r\n* Reorder notes for readability\r\n\r\n* Add to change log",
+      "createdAt": "2022-07-14T16:49:13Z",
+      "updatedAt": "2022-07-14T16:59:58Z",
+      "baseRepository": "sbingler/http-extensions",
+      "baseRefName": "Issue1288",
+      "baseRefOid": "706b78fbd889b621b07ee08d75e5fd7e67a484ac",
+      "headRepository": "httpwg/http-extensions",
+      "headRefName": "main",
+      "headRefOid": "e9659474cb027b40e1a934a56d15495f8dacb910",
+      "closedAt": "2022-07-14T16:59:58Z",
+      "mergedAt": "2022-07-14T16:59:58Z",
+      "mergedBy": "sbingler",
+      "mergeCommit": {
+        "oid": "e9659474cb027b40e1a934a56d15495f8dacb910"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
