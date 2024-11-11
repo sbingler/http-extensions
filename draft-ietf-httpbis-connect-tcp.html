@@ -9,22 +9,22 @@
 <meta content="
        TCP proxying using HTTP CONNECT has long been part of the core HTTP specification.  However, this proxying functionality has several important deficiencies in modern HTTP environments.  This specification defines an alternative HTTP proxy service configuration for TCP connections.  This configuration is described by a URI Template, similar to the CONNECT-UDP and CONNECT-IP protocols. 
     " name="description">
-<meta content="xml2rfc 3.22.0" name="generator">
+<meta content="xml2rfc 3.24.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-httpbis-connect-tcp-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.22.0
-    Python 3.12.3
+  xml2rfc 3.24.0
+    Python 3.12.7
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
-    lxml 4.9.4
-    platformdirs 4.2.2
+    lxml 5.3.0
+    platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.32.3
-    setuptools 69.5.1
+    setuptools 70.3.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-httpbis-connect-tcp.xml" rel="alternate" type="application/rfc+xml">
@@ -161,31 +161,6 @@
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -202,6 +177,77 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -214,6 +260,7 @@
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -232,8 +279,8 @@ body {
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -641,6 +688,12 @@ sub, sup {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
 }
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+  }
+}
 #toc nav ul {
   margin: 0 0.5em 0 0;
   padding: 0;
@@ -1024,11 +1077,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Templated CONNECT-TCP</td>
-<td class="right">August 2024</td>
+<td class="right">November 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Schwartz</td>
-<td class="center">Expires 8 February 2025</td>
+<td class="center">Expires 15 May 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1041,12 +1094,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-httpbis-connect-tcp-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-08-07" class="published">7 August 2024</time>
+<time datetime="2024-11-11" class="published">11 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-02-08">8 February 2025</time></dd>
+<dd class="expires"><time datetime="2025-05-15">15 May 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1080,7 +1133,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 February 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 15 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1144,10 +1197,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
                     <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-authentication-headers" class="internal xref">Authentication Headers</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.3">
-                    <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-use-of-the-capsule-protocol" class="internal xref">Use of the Capsule Protocol</a></p>
-</li>
                 </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-use-of-the-capsule-protocol" class="internal xref">Use of the Capsule Protocol</a></p>
 </li>
             </ul>
 </li>
@@ -1183,7 +1236,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-new-upgrade-token" class="internal xref">New Upgrade Token</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-new-upgrade-tokens" class="internal xref">New Upgrade Tokens</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-new-masque-default-template" class="internal xref">New MASQUE Default Template</a></p>
@@ -1405,16 +1458,16 @@ HEADERS
 <p id="section-3.3.2-2">Clients <span class="bcp14">SHOULD</span> assume that all proxy resources generated by a single template share a protection space (i.e., a realm) (<span>[<a href="#RFC9110" class="cite xref">RFC9110</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-11.5" class="relref">Section 11.5</a></span>).  For many authentication schemes, this will allow the client to avoid waiting for a "401 (Unauthorized)" response before each new connection through the proxy.<a href="#section-3.3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="capsule-protocol">
-<section id="section-3.3.3">
-          <h4 id="name-use-of-the-capsule-protocol">
-<a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-use-of-the-capsule-protocol" class="section-name selfRef">Use of the Capsule Protocol</a>
-          </h4>
-<p id="section-3.3.3-1">In this specification, use of the Capsule Protocol <span>[<a href="#RFC9297" class="cite xref">RFC9297</a>]</span> is <span class="bcp14">OPTIONAL</span>.  Clients <span class="bcp14">MAY</span> request use of the Capsule Protocol by including a "Capsule-Protocol: ?1" header field in the request.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.3-2">Server support for the Capsule Protocol is also <span class="bcp14">OPTIONAL</span>.  If the request includes "Capsule-Protocol: ?1", and the server does not support the Capsule Protocol, the server <span class="bcp14">MUST</span> respond with a 4xx (Client Error) status and a "Capsule-Protocol: ?0" response header field, and <span class="bcp14">MUST</span> discard any data received on this request stream.  Upon receiving such a response, the client <span class="bcp14">MUST</span> retry the request without the Capsule Protocol and <span class="bcp14">MAY</span> disable use of the Capsule Protocol with this URI Template for the remainder of the session.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3.3-3">When using the Capsule Protocol, TCP payload data is sent in the payload of a new Capsule Type named DATA (<a href="#data-capsule" class="auto internal xref">Section 8.3</a>).  The ordered concatenation of DATA capsule payloads has the same semantics as what would have been sent on the data stream if the Capsule Protocol were not in use.  It is applicable whenever use of the Capsule Protocol is optional.<a href="#section-3.3.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="capsule-protocol">
+<section id="section-3.4">
+        <h3 id="name-use-of-the-capsule-protocol">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-use-of-the-capsule-protocol" class="section-name selfRef">Use of the Capsule Protocol</a>
+        </h3>
+<p id="section-3.4-1">When using the "connect-tcp" Upgrade Token, templated TCP proxies do not use the Capsule Protocol <span>[<a href="#RFC9297" class="cite xref">RFC9297</a>]</span>.  Clients <span class="bcp14">MAY</span> request use of the Capsule Protocol by offering the Upgrade Token "connect-tcp-capsule" instead.  When offering or accepting the "connect-tcp-capsule" Upgrade Token, clients and servers <span class="bcp14">SHOULD</span> include a "Capsule-Protocol: ?1" header to facilitate processing by intermediaries.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">Clients of this specification <span class="bcp14">MAY</span> implement "connect-tcp", "connect-tcp-capsule", or both.  Accordingly, a templated TCP proxy server <span class="bcp14">MUST</span> implement both Upgrade Tokens unless its use is restricted to a subset of compatible clients.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">When using "connect-tcp-capsule", TCP payload data is sent in the payload of a new Capsule Type named DATA (<a href="#data-capsule" class="auto internal xref">Section 8.3</a>).  The ordered concatenation of DATA capsule payloads represents the main payload data stream in any protocol where this is well-defined.  Intermediaries <span class="bcp14">MAY</span> split or merge DATA capsules.  Endpoints <span class="bcp14">MAY</span> indicate a TCP connection error by sending an incomplete DATA capsule, as an alternative to using TCP, TLS, or HTTP stream errors.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1539,24 +1592,35 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
       <h2 id="name-iana-considerations">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<div id="new-upgrade-token">
+<div id="new-upgrade-tokens">
 <section id="section-8.1">
-        <h3 id="name-new-upgrade-token">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-new-upgrade-token" class="section-name selfRef">New Upgrade Token</a>
+        <h3 id="name-new-upgrade-tokens">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-new-upgrade-tokens" class="section-name selfRef">New Upgrade Tokens</a>
         </h3>
-<p id="section-8.1-1">IF APPROVED, IANA is requested to add the following entry to the HTTP Upgrade Token Registry:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-8.1-2.1">
-            <p id="section-8.1-2.1.1">Value: "connect-tcp"<a href="#section-8.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.1-2.2">
-            <p id="section-8.1-2.2.1">Description: Proxying of TCP payloads<a href="#section-8.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.1-2.3">
-            <p id="section-8.1-2.3.1">Reference: (This document)<a href="#section-8.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-8.1-3">For interoperability testing of this draft version, implementations <span class="bcp14">SHALL</span> use the value "connect-tcp-05".<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">IF APPROVED, IANA is requested to add the following entries to the HTTP Upgrade Token Registry:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Value</th>
+              <th class="text-left" rowspan="1" colspan="1">Description</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">"connect-tcp"</td>
+              <td class="text-left" rowspan="1" colspan="1">Proxying of TCP payloads</td>
+              <td class="text-left" rowspan="1" colspan="1">(This document)</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">"connect-tcp-capsule"</td>
+              <td class="text-left" rowspan="1" colspan="1">Proxying of TCP payloads in HTTP Capsules</td>
+              <td class="text-left" rowspan="1" colspan="1">(This document)</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-8.1-3">For interoperability testing of this draft version, implementations <span class="bcp14">SHALL</span> use the values "connect-tcp-06" and "connect-tcp-capsule-06.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-template">
@@ -1565,8 +1629,8 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-new-masque-default-template" class="section-name selfRef">New MASQUE Default Template</a>
         </h3>
 <p id="section-8.2-1">IF APPROVED, IANA is requested to add the following entry to the "MASQUE URI Suffixes" registry:<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<table class="center" id="table-2">
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Path Segment</th>
@@ -1590,8 +1654,8 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
 <a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-new-capsule-type" class="section-name selfRef">New Capsule Type</a>
         </h3>
 <p id="section-8.3-1">IF APPROVED, IANA is requested to add the following entry to the "HTTP Capsule Types" registry:<a href="#section-8.3-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<table class="center" id="table-3">
+          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Value</th>
@@ -1607,7 +1671,7 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
               <td class="text-left" rowspan="1" colspan="1">(TBD)</td>
               <td class="text-left" rowspan="1" colspan="1">DATA</td>
               <td class="text-left" rowspan="1" colspan="1">permanent</td>
-              <td class="text-left" rowspan="1" colspan="1">(This document), <a href="#capsule-protocol" class="auto internal xref">Section 3.3.3</a>
+              <td class="text-left" rowspan="1" colspan="1">(This document), <a href="#capsule-protocol" class="auto internal xref">Section 3.4</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
               <td class="text-left" rowspan="1" colspan="1">HTTPBIS</td>
@@ -1678,6 +1742,10 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
         <dd>
 <span class="refAuthor">Hamilton, R.</span>, <span class="refTitle">"Bootstrapping WebSockets with HTTP/3"</span>, <span class="seriesInfo">RFC 9220</span>, <span class="seriesInfo">DOI 10.17487/RFC9220</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9220">https://www.rfc-editor.org/rfc/rfc9220</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9297">[RFC9297]</dt>
+        <dd>
+<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"HTTP Datagrams and the Capsule Protocol"</span>, <span class="seriesInfo">RFC 9297</span>, <span class="seriesInfo">DOI 10.17487/RFC9297</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9297">https://www.rfc-editor.org/rfc/rfc9297</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9298">[RFC9298]</dt>
       <dd>
 <span class="refAuthor">Schinazi, D.</span>, <span class="refTitle">"Proxying UDP in HTTP"</span>, <span class="seriesInfo">RFC 9298</span>, <span class="seriesInfo">DOI 10.17487/RFC9298</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9298">https://www.rfc-editor.org/rfc/rfc9298</a>&gt;</span>. </dd>
@@ -1724,12 +1792,8 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
 <span class="refAuthor">Nottingham, M.</span>, <span class="refAuthor">McManus, P.</span>, and <span class="refAuthor">J. Reschke</span>, <span class="refTitle">"HTTP Alternative Services"</span>, <span class="seriesInfo">RFC 7838</span>, <span class="seriesInfo">DOI 10.17487/RFC7838</span>, <time datetime="2016-04" class="refDate">April 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7838">https://www.rfc-editor.org/rfc/rfc7838</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8942">[RFC8942]</dt>
-        <dd>
-<span class="refAuthor">Grigorik, I.</span> and <span class="refAuthor">Y. Weiss</span>, <span class="refTitle">"HTTP Client Hints"</span>, <span class="seriesInfo">RFC 8942</span>, <span class="seriesInfo">DOI 10.17487/RFC8942</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8942">https://www.rfc-editor.org/rfc/rfc8942</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9297">[RFC9297]</dt>
       <dd>
-<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"HTTP Datagrams and the Capsule Protocol"</span>, <span class="seriesInfo">RFC 9297</span>, <span class="seriesInfo">DOI 10.17487/RFC9297</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9297">https://www.rfc-editor.org/rfc/rfc9297</a>&gt;</span>. </dd>
+<span class="refAuthor">Grigorik, I.</span> and <span class="refAuthor">Y. Weiss</span>, <span class="refTitle">"HTTP Client Hints"</span>, <span class="seriesInfo">RFC 8942</span>, <span class="seriesInfo">DOI 10.17487/RFC8942</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8942">https://www.rfc-editor.org/rfc/rfc8942</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

@@ -6,8 +6,8 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                              M. West, Ed.
 Obsoletes: 6265 (if approved)                                 Google LLC
 Intended status: Standards Track                        J. Wilander, Ed.
-Expires: 8 February 2025                                      Apple, Inc
-                                                           7 August 2024
+Expires: 15 May 2025                                          Apple, Inc
+                                                        11 November 2024
 
 
                 Cookies: HTTP State Management Mechanism
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 February 2025.
+   This Internet-Draft will expire on 15 May 2025.
 
 Copyright Notice
 
@@ -511,12 +511,13 @@ Table of Contents
    set-cookie        = set-cookie-string
    set-cookie-string = BWS cookie-pair *( BWS ";" OWS cookie-av )
    cookie-pair       = cookie-name BWS "=" BWS cookie-value
-   cookie-name       = 1*cookie-octet
+   cookie-name       = token
    cookie-value      = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
    cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
                          ; US-ASCII characters excluding CTLs,
-                         ; whitespace DQUOTE, comma, semicolon,
+                         ; whitespace, DQUOTE, comma, semicolon,
                          ; and backslash
+   token             = <token, defined in [RFC9110], Section 5.6.2>
 
    cookie-av         = expires-av / max-age-av / domain-av /
                        path-av / secure-av / httponly-av /
@@ -1256,13 +1257,16 @@ Table of Contents
    header field as a set-cookie-string (defined below).
 
    NOTE: The algorithm below is more permissive than the grammar in
-   Section 4.1.  For example, the algorithm strips leading and trailing
+   Section 4.1.  For example, the algorithm allows cookie-name to be
+   comprised of cookie-octets instead of being a token as specified in
+   Section 4.1 and the algorithm accommodates some characters that are
+   not cookie-octets according to the grammar in Section 4.1.  In
+   addition, the algorithm below also strips leading and trailing
    whitespace from the cookie name and value (but maintains internal
    whitespace), whereas the grammar in Section 4.1 forbids whitespace in
-   these positions.  In addition, the algorithm below accommodates some
-   characters that are not cookie-octets according to the grammar in
-   Section 4.1.  User agents use this algorithm so as to interoperate
-   with servers that do not follow the recommendations in Section 4.
+   these positions.  User agents use this algorithm so as to
+   interoperate with servers that do not follow the recommendations in
+   Section 4.
 
    NOTE: As set-cookie-string may originate from a non-HTTP API, it is
    not guaranteed to be free of CTL characters, so this algorithm
@@ -2655,10 +2659,6 @@ Table of Contents
    [SAMESITE] WHATWG, "HTML - Living Standard", 26 January 2021,
               <https://html.spec.whatwg.org/#same-site>.
 
-   [SERVICE-WORKERS]
-              Russell, A., Song, J., and J. Archibald, "Service
-              Workers", n.d., <http://www.w3.org/TR/service-workers/>.
-
    [USASCII]  American National Standards Institute, "Coded Character
               Set -- 7-bit American Standard Code for Information
               Interchange", ANSI X3.4, 1986.
@@ -2755,6 +2755,10 @@ Table of Contents
 
    [RFC9114]  Bishop, M., Ed., "HTTP/3", RFC 9114, DOI 10.17487/RFC9114,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9114>.
+
+   [SERVICE-WORKERS]
+              Archibald, J. and M. Kruisselbrink, "Service Workers",
+              n.d., <https://www.w3.org/TR/service-workers/>.
 
    [UTS46]    Davis, M. and M. Suignard, "Unicode IDNA Compatibility
               Processing", UNICODE Unicode Technical Standards # 46,

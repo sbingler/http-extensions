@@ -5,8 +5,8 @@
 HTTP                                                     E. Gorbaty, Ed.
 Internet-Draft                                                     Apple
 Intended status: Standards Track                          M. Bishop, Ed.
-Expires: 8 February 2025                                          Akamai
-                                                           7 August 2024
+Expires: 15 May 2025                                              Akamai
+                                                        11 November 2024
 
 
           Secondary Certificate Authentication of HTTP Servers
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 February 2025.
+   This Internet-Draft will expire on 15 May 2025.
 
 Copyright Notice
 
@@ -80,9 +80,9 @@ Table of Contents
      3.2.  Making Certificates Available
    4.  SETTINGS_HTTP_SERVER_CERT_AUTH
      4.1.  The SETTINGS_HTTP_SERVER_CERT_AUTH HTTP/2 SETTINGS
-           Parameter{#http2-setting}
+           Parameter
      4.2.  The SETTINGS_HTTP_SERVER_CERT_AUTH HTTP/3 SETTINGS
-           Parameter{#http3-setting}
+           Parameter
    5.  CERTIFICATE frame
      5.1.  HTTP/2 CERTIFICATE frame
      5.2.  HTTP/3 CERTIFICATE frame
@@ -306,8 +306,7 @@ Table of Contents
    SETTINGS parameters for HTTP/2 and HTTP/3 seperately are defined
    below.
 
-4.1.  The SETTINGS_HTTP_SERVER_CERT_AUTH HTTP/2 SETTINGS
-      Parameter{#http2-setting}
+4.1.  The SETTINGS_HTTP_SERVER_CERT_AUTH HTTP/2 SETTINGS Parameter
 
    This document adds a new HTTP/2 SETTINGS(0xTBD) parameter to those
    defined by Section 6.5.2 of [H2].
@@ -317,8 +316,7 @@ Table of Contents
 
    The usage of this parameter is described in Section 3.1.
 
-4.2.  The SETTINGS_HTTP_SERVER_CERT_AUTH HTTP/3 SETTINGS
-      Parameter{#http3-setting}
+4.2.  The SETTINGS_HTTP_SERVER_CERT_AUTH HTTP/3 SETTINGS Parameter
 
    This document adds a new HTTP/3 SETTINGS(0xTBD) parameter to those
    defined by Section 7.2.4.1 of [H3].
