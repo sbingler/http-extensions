@@ -9,11 +9,11 @@
 <meta content="
        TCP proxying using HTTP CONNECT has long been part of the core HTTP specification.  However, this proxying functionality has several important deficiencies in modern HTTP environments.  This specification defines an alternative HTTP proxy service configuration for TCP connections.  This configuration is described by a URI Template, similar to the CONNECT-UDP and CONNECT-IP protocols. 
     " name="description">
-<meta content="xml2rfc 3.24.0" name="generator">
+<meta content="xml2rfc 3.25.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-httpbis-connect-tcp-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.24.0
+  xml2rfc 3.25.0
     Python 3.12.7
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -278,6 +278,12 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-title);
   font-weight: 680;
@@ -309,6 +315,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -386,25 +393,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -412,38 +420,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
-}
-dl.olPercent {
-  --indent: 5ch;
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
 dl > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
 }
-dl.dlNewline > dt {
-  float: none;
-}
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -507,6 +516,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -524,7 +534,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -561,6 +575,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -575,6 +590,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -605,9 +630,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -647,26 +674,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -677,9 +706,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -687,53 +713,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-@media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
   }
 }
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
-}
-
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -741,21 +762,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -777,6 +810,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -787,7 +821,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -798,9 +856,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -813,17 +868,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -834,14 +889,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -849,11 +903,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -882,20 +936,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -938,9 +984,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -963,82 +1006,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1077,11 +1044,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Templated CONNECT-TCP</td>
-<td class="right">November 2024</td>
+<td class="right">December 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Schwartz</td>
-<td class="center">Expires 15 May 2025</td>
+<td class="center">Expires 16 June 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1094,12 +1061,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-httpbis-connect-tcp-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-11-11" class="published">11 November 2024</time>
+<time datetime="2024-12-13" class="published">13 December 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-05-15">15 May 2025</time></dd>
+<dd class="expires"><time datetime="2025-06-16">16 June 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1100,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1189,7 +1156,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-in-http-2-and-http-3" class="internal xref">In HTTP/2 and HTTP/3</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-of-relevant-headers" class="internal xref">Use of Relevant Headers</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-use-of-other-relevant-heade" class="internal xref">Use of Other Relevant Headers</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
                     <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-origin-scoped-headers" class="internal xref">Origin-scoped Headers</a></p>
@@ -1200,7 +1167,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-use-of-the-capsule-protocol" class="internal xref">Use of the Capsule Protocol</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-closing-connections" class="internal xref">Closing Connections</a></p>
 </li>
             </ul>
 </li>
@@ -1236,7 +1203,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-new-upgrade-tokens" class="internal xref">New Upgrade Tokens</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-new-upgrade-token" class="internal xref">New Upgrade Token</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-new-masque-default-template" class="internal xref">New MASQUE Default Template</a></p>
@@ -1288,6 +1255,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </h3>
 <p id="section-1.2-1">HTTP clients can be configured to use proxies by selecting a proxy hostname, a port, and whether to use a security protocol. However, Classic HTTP CONNECT requests using the proxy do not carry this configuration information. Instead, they only indicate the hostname and port of the target. This prevents any HTTP server from hosting multiple distinct proxy services, as the server cannot distinguish them by path (as with distinct resources) or by origin (as in "virtual hosting").<a href="#section-1.2-1" class="pilcrow">¶</a></p>
 <p id="section-1.2-2">The absence of an explicit origin for the proxy also rules out the usual defenses against server port misdirection attacks (see <span><a href="https://rfc-editor.org/rfc/rfc9110#section-7.4" class="relref">Section 7.4</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>) and creates ambiguity about the use of origin-scoped response header fields (e.g., "Alt-Svc" <span>[<a href="#RFC7838" class="cite xref">RFC7838</a>]</span>, "Strict-Transport-Security" <span>[<a href="#RFC6797" class="cite xref">RFC6797</a>]</span>).<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.2-3">Classic HTTP CONNECT requests cannot carry in-stream metadata. For example, the WRAP_UP capsule <span>[<a href="#I-D.schinazi-httpbis-wrap-up" class="cite xref">I-D.schinazi-httpbis-wrap-up</a>]</span> cannot be used with Classic HTTP CONNECT.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="overview">
@@ -1316,7 +1284,17 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-specification">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-specification" class="section-name selfRef">Specification</a>
       </h2>
-<p id="section-3-1">A template-driven TCP transport proxy for HTTP is identified by a URI Template <span>[<a href="#RFC6570" class="cite xref">RFC6570</a>]</span> containing variables named "target_host" and "target_port".  This URI Template and its variable values <span class="bcp14">MUST</span> meet all the same requirements as for UDP proxying (<span>[<a href="#RFC9298" class="cite xref">RFC9298</a>], <a href="https://rfc-editor.org/rfc/rfc9298#section-2" class="relref">Section 2</a></span>), and are subject to the same validation rules.  The client <span class="bcp14">MUST</span> substitute the destination host and port number into this template to produce the request URI.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">A template-driven TCP transport proxy for HTTP is identified by a URI Template <span>[<a href="#RFC6570" class="cite xref">RFC6570</a>]</span> containing variables named "target_host" and "target_port".  This URI Template and its variable values <span class="bcp14">MUST</span> meet all the same requirements as for UDP proxying (<span>[<a href="#RFC9298" class="cite xref">RFC9298</a>], <a href="https://rfc-editor.org/rfc/rfc9298#section-2" class="relref">Section 2</a></span>), and are subject to the same validation rules.  The client <span class="bcp14">MUST</span> substitute the destination host and port number into this template to produce the request URI.  The derived URI serves as the destination of a Capsule Protocol connection using the Upgrade Token "connect-tcp" (see registration in <a href="#new-upgrade-token" class="auto internal xref">Section 8.1</a>).<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">When using "connect-tcp", TCP payload data is sent in the payload of a new Capsule Type named DATA (see registration in <a href="#data-capsule" class="auto internal xref">Section 8.3</a>).  The ordered concatenation of DATA capsule payloads represents the TCP payload data.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">An intermediary <span class="bcp14">MAY</span> merge and split successive DATA capsules, subject to the following requirements:<a href="#section-3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-4.1">
+          <p id="section-3-4.1.1">There are no intervening capsules of other types.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-4.2">
+          <p id="section-3-4.2.1">The order of payload content is preserved.<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 <div id="in-http11">
 <section id="section-3.1">
         <h3 id="name-in-http-11">
@@ -1328,16 +1306,19 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-3.1-2.1.1">The method <span class="bcp14">SHALL</span> be "GET".<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
-            <p id="section-3.1-2.2.1">The request <span class="bcp14">SHALL</span> include a single "Host" header field containing the origin of the proxy.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.2.1">The request's target <span class="bcp14">SHALL</span> correspond to the URI derived from expansion of the proxy's URI Template.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.3">
-            <p id="section-3.1-2.3.1">The request <span class="bcp14">SHALL</span> include a "Connection" header field with the value "Upgrade".  (Note that this requirement is case-insensitive as per <span><a href="https://rfc-editor.org/rfc/rfc9110#section-7.6.1" class="relref">Section 7.6.1</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.)<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.3.1">The request <span class="bcp14">SHALL</span> include a single "Host" header field containing the origin of the proxy.<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1">The request <span class="bcp14">SHALL</span> include an "Upgrade" header field with the value "connect-tcp".<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.4.1">The request <span class="bcp14">SHALL</span> include a "Connection" header field with the value "Upgrade".  (Note that this requirement is case-insensitive as per <span><a href="https://rfc-editor.org/rfc/rfc9110#section-7.6.1" class="relref">Section 7.6.1</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.)<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.5">
-            <p id="section-3.1-2.5.1">The request's target <span class="bcp14">SHALL</span> correspond to the URI derived from expansion of the proxy's URI Template.<a href="#section-3.1-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.5.1">The request <span class="bcp14">SHALL</span> include an "Upgrade" header field with the value "connect-tcp".<a href="#section-3.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-2.6">
+            <p id="section-3.1-2.6.1">The request <span class="bcp14">SHOULD</span> include a "Capsule-Protocol: ?1" header.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.1-3">If the request is well-formed and permissible, the proxy <span class="bcp14">MUST</span> attempt to establish the TCP connection before sending any response status code other than "100 (Continue)" (see <a href="#conveying-metadata" class="auto internal xref">Section 4.2</a>).  If the TCP connection is successful, the response <span class="bcp14">SHALL</span> be as follows:<a href="#section-3.1-3" class="pilcrow">¶</a></p>
@@ -1351,11 +1332,13 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
           <li class="normal" id="section-3.1-4.3">
             <p id="section-3.1-4.3.1">The response <span class="bcp14">SHALL</span> include a single "Upgrade" header field with the value "connect-tcp".<a href="#section-3.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
+          <li class="normal" id="section-3.1-4.4">
+            <p id="section-3.1-4.4.1">The response <span class="bcp14">SHOULD</span> include a "Capsule-Protocol: ?1" header.<a href="#section-3.1-4.4.1" class="pilcrow">¶</a></p>
+</li>
         </ul>
 <p id="section-3.1-5">If the request is malformed or impermissible, the proxy <span class="bcp14">MUST</span> return a 4XX error code.  If a TCP connection was not established, the proxy <span class="bcp14">MUST NOT</span> switch protocols to "connect-tcp", and the client <span class="bcp14">MAY</span> reuse this connection for additional HTTP requests.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
-<p id="section-3.1-6">After a success response is returned, the connection <span class="bcp14">SHALL</span> conform to all the usual requirements for classic CONNECT proxies in HTTP/1.1 (<span>[<a href="#RFC9110" class="cite xref">RFC9110</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-9.3.6" class="relref">Section 9.3.6</a></span>).  Additionally, if the proxy observes a connection error from the client (e.g., a TCP RST, TCP timeout, or TLS error), it <span class="bcp14">SHOULD</span> send a TCP RST to the target.  If the proxy observes a connection error from the target, it <span class="bcp14">SHOULD</span> send a TLS "internal_error" alert to the client, or set the TCP RST bit if TLS is not in use.  These behaviors avoid truncation of transfers between the client and the target on vulnerable protocols (e.g., HTTP/1.1 without TLS) while preserving the confidentiality and integrity guarantees of the "https" scheme.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 <span id="name-templated-tcp-proxy-example"></span><figure id="figure-1">
-          <div class="alignLeft art-text artwork" id="section-3.1-7.1">
+          <div class="alignLeft art-text artwork" id="section-3.1-6.1">
 <pre>
 Client                                                 Proxy
 
@@ -1363,12 +1346,14 @@ GET /proxy?target_host=192.0.2.1&amp;target_port=443 HTTP/1.1
 Host: example.com
 Connection: Upgrade
 Upgrade: connect-tcp
+Capsule-Protocol: ?1
 
 ** Proxy establishes a TCP connection to 192.0.2.1:443 **
 
                             HTTP/1.1 101 Switching Protocols
                             Connection: Upgrade
                             Upgrade: connect-tcp
+                            Capsule-Protocol: ?1
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
@@ -1396,10 +1381,9 @@ Upgrade: connect-tcp
             <p id="section-3.2-2.4.1">The :path and :scheme pseudo-header fields <span class="bcp14">SHALL</span> contain the path and scheme of the request URI derived from the proxy's URI Template.<a href="#section-3.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-3">From this point on, the request and response <span class="bcp14">SHALL</span> conform to all the usual requirements for classic CONNECT proxies in this HTTP version (see <span><a href="https://rfc-editor.org/rfc/rfc9113#section-8.5" class="relref">Section 8.5</a> of [<a href="#RFC9113" class="cite xref">RFC9113</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9114#section-4.4" class="relref">Section 4.4</a> of [<a href="#RFC9114" class="cite xref">RFC9114</a>]</span>).<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">A templated TCP proxying request that does not conform to all of these requirements represents a client error (see <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-15.5" class="relref">Section 15.5</a></span>) and may be malformed (see <span><a href="https://rfc-editor.org/rfc/rfc9113#section-8.1.1" class="relref">Section 8.1.1</a> of [<a href="#RFC9113" class="cite xref">RFC9113</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9114#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9114" class="cite xref">RFC9114</a>]</span>).<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">A templated TCP proxying request that does not conform to all of these requirements represents a client error (see <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-15.5" class="relref">Section 15.5</a></span>) and may be malformed (see <span><a href="https://rfc-editor.org/rfc/rfc9113#section-8.1.1" class="relref">Section 8.1.1</a> of [<a href="#RFC9113" class="cite xref">RFC9113</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9114#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9114" class="cite xref">RFC9114</a>]</span>).<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <span id="name-templated-tcp-proxy-example-"></span><figure id="figure-2">
-          <div class="alignLeft art-text artwork" id="section-3.2-5.1">
+          <div class="alignLeft art-text artwork" id="section-3.2-4.1">
 <pre>
 HEADERS
 :method = CONNECT
@@ -1407,6 +1391,7 @@ HEADERS
 :authority = request-proxy.example
 :path = /proxy?target_host=2001%3Adb8%3A%3A1&amp;target_port=443
 :protocol = connect-tcp
+capsule-protocol = ?1
 ...
 </pre>
 </div>
@@ -1415,10 +1400,10 @@ HEADERS
           </figcaption></figure>
 </section>
 </div>
-<div id="use-of-relevant-headers">
+<div id="use-of-other-relevant-headers">
 <section id="section-3.3">
-        <h3 id="name-use-of-relevant-headers">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-of-relevant-headers" class="section-name selfRef">Use of Relevant Headers</a>
+        <h3 id="name-use-of-other-relevant-heade">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-use-of-other-relevant-heade" class="section-name selfRef">Use of Other Relevant Headers</a>
         </h3>
 <div id="origin-scoped-headers">
 <section id="section-3.3.1">
@@ -1460,14 +1445,23 @@ HEADERS
 </div>
 </section>
 </div>
-<div id="capsule-protocol">
+<div id="closing-connections">
 <section id="section-3.4">
-        <h3 id="name-use-of-the-capsule-protocol">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-use-of-the-capsule-protocol" class="section-name selfRef">Use of the Capsule Protocol</a>
+        <h3 id="name-closing-connections">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-closing-connections" class="section-name selfRef">Closing Connections</a>
         </h3>
-<p id="section-3.4-1">When using the "connect-tcp" Upgrade Token, templated TCP proxies do not use the Capsule Protocol <span>[<a href="#RFC9297" class="cite xref">RFC9297</a>]</span>.  Clients <span class="bcp14">MAY</span> request use of the Capsule Protocol by offering the Upgrade Token "connect-tcp-capsule" instead.  When offering or accepting the "connect-tcp-capsule" Upgrade Token, clients and servers <span class="bcp14">SHOULD</span> include a "Capsule-Protocol: ?1" header to facilitate processing by intermediaries.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.4-2">Clients of this specification <span class="bcp14">MAY</span> implement "connect-tcp", "connect-tcp-capsule", or both.  Accordingly, a templated TCP proxy server <span class="bcp14">MUST</span> implement both Upgrade Tokens unless its use is restricted to a subset of compatible clients.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">When using "connect-tcp-capsule", TCP payload data is sent in the payload of a new Capsule Type named DATA (<a href="#data-capsule" class="auto internal xref">Section 8.3</a>).  The ordered concatenation of DATA capsule payloads represents the main payload data stream in any protocol where this is well-defined.  Intermediaries <span class="bcp14">MAY</span> split or merge DATA capsules.  Endpoints <span class="bcp14">MAY</span> indicate a TCP connection error by sending an incomplete DATA capsule, as an alternative to using TCP, TLS, or HTTP stream errors.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-1">In each HTTP version, any requirements related to closing connections in Classic HTTP CONNECT also apply to "connect-tcp", with the following modifications:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.4-2.1">
+            <p id="section-3.4-2.1.1">In HTTP/1.1, endpoints <span class="bcp14">SHOULD</span> close the connection in an error state to indicate receipt of a TCP connection error (e.g., a TCP RST or timeout).  Acceptable error states include sending an incomplete DATA capsule (as defined in <span><a href="https://rfc-editor.org/rfc/rfc9297#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC9297" class="cite xref">RFC9297</a>]</span>), a TLS Error Alert (<span>[<a href="#RFC8446" class="cite xref">RFC8446</a>], <a href="https://rfc-editor.org/rfc/rfc8446#section-6.2" class="relref">Section 6.2</a></span>), or a TCP RST (if TLS is not in use).  When a connection is terminated in an error state, the receiving endpoint <span class="bcp14">SHOULD</span> send a TCP RST if the underlying TCP implementation permits it.<a href="#section-3.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.4-2.2">
+            <p id="section-3.4-2.2.1">In HTTP/2 and HTTP/3, senders <span class="bcp14">MAY</span> use an incomplete DATA capsule to indicate a TCP connection error, instead of (or in addition to) the signals defined for TCP connection errors in Classic HTTP CONNECT.  Recipients <span class="bcp14">MUST</span> recognize any incomplete capsule as a TCP connection error.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.4-2.3">
+            <p id="section-3.4-2.3.1">Intermediaries <span class="bcp14">MUST</span> propagate connection shutdown errors, including when translating between different HTTP versions.<a href="#section-3.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -1592,12 +1586,12 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
       <h2 id="name-iana-considerations">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<div id="new-upgrade-tokens">
+<div id="new-upgrade-token">
 <section id="section-8.1">
-        <h3 id="name-new-upgrade-tokens">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-new-upgrade-tokens" class="section-name selfRef">New Upgrade Tokens</a>
+        <h3 id="name-new-upgrade-token">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-new-upgrade-token" class="section-name selfRef">New Upgrade Token</a>
         </h3>
-<p id="section-8.1-1">IF APPROVED, IANA is requested to add the following entries to the HTTP Upgrade Token Registry:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">IF APPROVED, IANA is requested to add the following entry to the HTTP Upgrade Token Registry:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -1613,14 +1607,9 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
               <td class="text-left" rowspan="1" colspan="1">Proxying of TCP payloads</td>
               <td class="text-left" rowspan="1" colspan="1">(This document)</td>
             </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">"connect-tcp-capsule"</td>
-              <td class="text-left" rowspan="1" colspan="1">Proxying of TCP payloads in HTTP Capsules</td>
-              <td class="text-left" rowspan="1" colspan="1">(This document)</td>
-            </tr>
           </tbody>
         </table>
-<p id="section-8.1-3">For interoperability testing of this draft version, implementations <span class="bcp14">SHALL</span> use the values "connect-tcp-06" and "connect-tcp-capsule-06.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+<p id="section-8.1-3">For interoperability testing of this draft version, implementations <span class="bcp14">SHALL</span> use the value "connect-tcp-07".<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-template">
@@ -1671,14 +1660,14 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
               <td class="text-left" rowspan="1" colspan="1">(TBD)</td>
               <td class="text-left" rowspan="1" colspan="1">DATA</td>
               <td class="text-left" rowspan="1" colspan="1">permanent</td>
-              <td class="text-left" rowspan="1" colspan="1">(This document), <a href="#capsule-protocol" class="auto internal xref">Section 3.4</a>
+              <td class="text-left" rowspan="1" colspan="1">(This document), <a href="#specification" class="auto internal xref">Section 3</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
               <td class="text-left" rowspan="1" colspan="1">HTTPBIS</td>
             </tr>
           </tbody>
         </table>
-<p id="section-8.3-3">For this draft version of the protocol, the Capsule Type value <code>0xb739a6d0</code> shall be used provisionally for testing, under the name "DATA-05".<a href="#section-8.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.3-3">For this draft version of the protocol, the Capsule Type value <code>0x2028d7ee</code> shall be used provisionally for testing, under the name "DATA-07".<a href="#section-8.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1774,6 +1763,10 @@ https://$PROXY_HOST:$PROXY_PORT/.well-known/masque
 <dt id="CONNECT-UDP">[CONNECT-UDP]</dt>
         <dd>
 <span class="refAuthor">Schinazi, D.</span>, <span class="refTitle">"Proxying UDP in HTTP"</span>, <span class="seriesInfo">RFC 9298</span>, <span class="seriesInfo">DOI 10.17487/RFC9298</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9298">https://www.rfc-editor.org/rfc/rfc9298</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.schinazi-httpbis-wrap-up">[I-D.schinazi-httpbis-wrap-up]</dt>
+        <dd>
+<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"The HTTP Wrap Up Capsule"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-schinazi-httpbis-wrap-up-01</span>, <time datetime="2024-10-16" class="refDate">16 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-schinazi-httpbis-wrap-up-01">https://datatracker.ietf.org/doc/html/draft-schinazi-httpbis-wrap-up-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6265">[RFC6265]</dt>
         <dd>
