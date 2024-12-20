@@ -1,4 +1,4 @@
-# Editor's drafts for EditorialCleanup branch of [sbingler/http-extensions](https://github.com/sbingler/http-extensions/tree/EditorialCleanup)
+# Editor's drafts for MoreCleanup branch of [sbingler/http-extensions](https://github.com/sbingler/http-extensions/tree/MoreCleanup)
 
 | Draft |     |     |     |
 | ----- | --- | --- | --- |
