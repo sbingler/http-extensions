@@ -711,7 +711,7 @@ Table of Contents
    cookie has the Secure attribute, the user agent will include the
    cookie in an HTTP request only if the request is transmitted over a
    secure channel (typically HTTP over Transport Layer Security (TLS
-   [RFC8446]) [HTTP]).
+   [TLS13]) [HTTP]).
 
 4.1.2.6.  The HttpOnly Attribute
 
@@ -1938,7 +1938,7 @@ Table of Contents
           NOTE: The notion of a "secure" connection is not defined by
           this document.  Typically, user agents consider a connection
           secure if the connection makes use of transport-layer
-          security, such as SSL or TLS [RFC8446], or if the host is
+          security, such as SSL or TLS [TLS13], or if the host is
           trusted.  For example, most user agents consider "https" to be
           a scheme that denotes a secure protocol and "localhost" to be
           trusted host.
@@ -2216,7 +2216,7 @@ Table of Contents
 
 8.3.  Clear Text
 
-   Unless sent over a secure channel (such as TLS [RFC8446]), the
+   Unless sent over a secure channel (such as TLS [TLS13]), the
    information in the Cookie and Set-Cookie header fields is transmitted
    in the clear.
 
@@ -2715,10 +2715,6 @@ Table of Contents
               Options", RFC 7034, DOI 10.17487/RFC7034, October 2013,
               <https://www.rfc-editor.org/rfc/rfc7034>.
 
-   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/rfc/rfc8446>.
-
    [RFC9113]  Thomson, M., Ed. and C. Benfield, Ed., "HTTP/2", RFC 9113,
               DOI 10.17487/RFC9113, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9113>.
@@ -2729,6 +2725,10 @@ Table of Contents
    [SERVICE-WORKERS]
               Archibald, J. and M. Kruisselbrink, "Service Workers",
               n.d., <https://www.w3.org/TR/service-workers/>.
+
+   [TLS13]    Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8446>.
 
 Appendix A.  Changes from RFC 6265
 
