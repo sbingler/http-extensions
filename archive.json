@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-28T00:55:04.358219+00:00",
+  "timestamp": "2025-01-30T00:54:03.596434+00:00",
   "repo": "sbingler/http-extensions",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "rfc6265bis",
+      "description": null,
+      "color": "b6d7a8"
     }
   ],
   "issues": [],
