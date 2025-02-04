@@ -22,7 +22,7 @@ View [saved issues](issues.html), or the latest GitHub [issues](https://github.c
 
 | Draft |     |     |     |
 | ----- | --- | --- | --- |
-| [No-Vary-Search](ErrataFix/draft-ietf-httpbis-no-vary-search.html "No-Vary-Search (HTML)") | [plain text](ErrataFix/draft-ietf-httpbis-no-vary-search.txt "No-Vary-Search (Text)") | same as main |
+| [No-Vary-Search](ErrataFix/draft-ietf-httpbis-no-vary-search.html "No-Vary-Search (HTML)") | [plain text](ErrataFix/draft-ietf-httpbis-no-vary-search.txt "No-Vary-Search (Text)") | [diff with main](https://author-tools.ietf.org/api/iddiff?url_1=https://sbingler.github.io/http-extensions/draft-ietf-httpbis-no-vary-search.txt&url_2=https://sbingler.github.io/http-extensions/ErrataFix/draft-ietf-httpbis-no-vary-search.txt) |
 | [Retrofit Structured Fields](ErrataFix/draft-ietf-httpbis-retrofit.html "Retrofit Structured Fields for HTTP (HTML)") | [plain text](ErrataFix/draft-ietf-httpbis-retrofit.txt "Retrofit Structured Fields for HTTP (Text)") | same as main |
 | [Optimistic HTTP Upgrade Security](ErrataFix/draft-ietf-httpbis-optimistic-upgrade.html "Security Considerations for Optimistic Protocol Transitions in HTTP/1.1 (HTML)") | [plain text](ErrataFix/draft-ietf-httpbis-optimistic-upgrade.txt "Security Considerations for Optimistic Protocol Transitions in HTTP/1.1 (Text)") | same as main |
 | [Templated CONNECT-TCP](ErrataFix/draft-ietf-httpbis-connect-tcp.html "Template-Driven HTTP CONNECT Proxying for TCP (HTML)") | [plain text](ErrataFix/draft-ietf-httpbis-connect-tcp.txt "Template-Driven HTTP CONNECT Proxying for TCP (Text)") | same as main |
