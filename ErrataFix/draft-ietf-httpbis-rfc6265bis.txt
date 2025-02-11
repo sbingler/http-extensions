@@ -6,8 +6,8 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                              M. West, Ed.
 Obsoletes: 6265 (if approved)                                 Google LLC
 Intended status: Standards Track                        J. Wilander, Ed.
-Expires: 8 August 2025                                        Apple, Inc
-                                                         4 February 2025
+Expires: 15 August 2025                                       Apple, Inc
+                                                        11 February 2025
 
 
                 Cookies: HTTP State Management Mechanism
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 August 2025.
+   This Internet-Draft will expire on 15 August 2025.
 
 Copyright Notice
 
@@ -325,12 +325,12 @@ Table of Contents
    Cookie header field does not preclude HTTP caches from storing and
    reusing a response.
 
-   Origin servers SHOULD NOT combine multiple Set-Cookie header fields
-   into a single header field.  The usual mechanism for combining HTTP
-   headers fields (i.e., as defined in Section 5.3 of [HTTP]) might
-   change the semantics of the Set-Cookie header field because the %x2C
-   (",") character is used by Set-Cookie in a way that conflicts with
-   such combining.
+   Origin servers and intermediaries MUST NOT each combine multiple Set-
+   Cookie header fields into a single header field.  The usual mechanism
+   for combining HTTP headers fields (i.e., as defined in Section 5.3 of
+   [HTTP]) might change the semantics of the Set-Cookie header field
+   because the %x2C (",") character is used by Set-Cookie in a way that
+   conflicts with such combining.
 
    User agents MAY ignore Set-Cookie header fields based on response
    status codes or the user agent's cookie policy (see Section 5.3).
