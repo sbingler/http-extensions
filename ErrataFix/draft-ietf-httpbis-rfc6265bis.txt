@@ -527,8 +527,9 @@ Table of Contents
 
    Informally, the Set-Cookie response header field contains a cookie,
    which begins with a name-value-pair, followed by zero or more
-   attribute-value pairs.  Servers SHOULD NOT send Set-Cookie header
-   fields that fail to conform to the following grammar:
+   attribute-value pairs.  Servers conforming to this profile MUST NOT
+   send Set-Cookie header fields that deviate from the following
+   grammar:
 
    set-cookie        = set-cookie-string
    set-cookie-string = BWS cookie-pair *( BWS ";" OWS cookie-av )
@@ -567,7 +568,7 @@ Table of Contents
    that use different grammatical notations than this document (which
    uses ABNF from [RFC5234]).
 
-   Per the grammar above, servers SHOULD NOT produce nameless cookies
+   Per the grammar above, servers MUST NOT produce nameless cookies
    (i.e.: an empty cookie-name) as such cookies may be unpredictably
    serialized by UAs when sent back to the server.
 
@@ -589,7 +590,7 @@ Table of Contents
 
    The portions of the set-cookie-string produced by the cookie-av term
    are known as attributes.  To maximize compatibility with user agents,
-   servers SHOULD NOT produce two attributes with the same name in the
+   servers MUST NOT produce two attributes with the same name in the
    same set-cookie-string.  (See Section 5.7 for how user agents handle
    this case.)
 
@@ -598,9 +599,9 @@ Table of Contents
    "SameSite", any case is accepted.  E.x.: "httponly", "Httponly",
    "hTTPoNLY", etc.
 
-   Servers SHOULD NOT include more than one Set-Cookie header field in
-   the same response with the same cookie-name.  (See Section 5.6 for
-   how user agents handle this case.)
+   Servers MUST NOT include more than one Set-Cookie header field in the
+   same response with the same cookie-name.  (See Section 5.6 for how
+   user agents handle this case.)
 
    If a server sends multiple responses containing Set-Cookie header
    fields concurrently to the user agent (e.g., when communicating with

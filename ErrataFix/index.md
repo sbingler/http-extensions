@@ -3,10 +3,10 @@
 | Draft |     |     |     |
 | ----- | --- | --- | --- |
 | [The HTTP QUERY Method](./draft-ietf-httpbis-safe-method-w-body.html "The HTTP QUERY Method (HTML)") | [plain text](./draft-ietf-httpbis-safe-method-w-body.txt "The HTTP QUERY Method (Text)") | same as main |
-| [The Concealed HTTP Authentication Scheme](./draft-ietf-httpbis-unprompted-auth.html "The Concealed HTTP Authentication Scheme (HTML)") | [plain text](./draft-ietf-httpbis-unprompted-auth.txt "The Concealed HTTP Authentication Scheme (Text)") | same as main |
 | [No-Vary-Search](./draft-ietf-httpbis-no-vary-search.html "No-Vary-Search (HTML)") | [plain text](./draft-ietf-httpbis-no-vary-search.txt "No-Vary-Search (Text)") | same as main |
 | [HTTP Cache Groups](./draft-ietf-httpbis-cache-groups.html "HTTP Cache Groups (HTML)") | [plain text](./draft-ietf-httpbis-cache-groups.txt "HTTP Cache Groups (Text)") | same as main |
 | [Compression Dictionary Transport](./draft-ietf-httpbis-compression-dictionary.html "Compression Dictionary Transport (HTML)") | [plain text](./draft-ietf-httpbis-compression-dictionary.txt "Compression Dictionary Transport (Text)") | same as main |
+| [The Concealed HTTP Authentication Scheme](./rfc9729.html "The Concealed HTTP Authentication Scheme (HTML)") | [plain text](./rfc9729.txt "The Concealed HTTP Authentication Scheme (Text)") | same as main |
 | [Cookies: HTTP State Management Mechanism](./draft-ietf-httpbis-rfc6265bis.html "Cookies: HTTP State Management Mechanism (HTML)") | [plain text](./draft-ietf-httpbis-rfc6265bis.txt "Cookies: HTTP State Management Mechanism (Text)") | same as main |
 | [Resumable Uploads](./draft-ietf-httpbis-resumable-upload.html "Resumable Uploads for HTTP (HTML)") | [plain text](./draft-ietf-httpbis-resumable-upload.txt "Resumable Uploads for HTTP (Text)") | same as main |
 | [The HTTP Wrap Up Capsule](./draft-ietf-httpbis-wrap-up.html "The HTTP Wrap Up Capsule (HTML)") | [plain text](./draft-ietf-httpbis-wrap-up.txt "The HTTP Wrap Up Capsule (Text)") | same as main |
