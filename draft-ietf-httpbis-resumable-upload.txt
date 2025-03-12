@@ -5,10 +5,10 @@
 HTTP                                                      M. Kleidl, Ed.
 Internet-Draft                                               Transloadit
 Intended status: Standards Track                           G. Zhang, Ed.
-Expires: 6 September 2025                                     Apple Inc.
+Expires: 13 September 2025                                    Apple Inc.
                                                           L. Pardue, Ed.
                                                               Cloudflare
-                                                            5 March 2025
+                                                           12 March 2025
 
 
                        Resumable Uploads for HTTP
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 September 2025.
+   This Internet-Draft will expire on 13 September 2025.
 
 Copyright Notice
 
@@ -731,11 +731,11 @@ Table of Contents
    HTTP/1.1 104 Upload Resumption Supported
    Upload-Draft-Interop-Version: 7
    Location: https://example.com/upload/b530ce8ff
+   Upload-Limit: max-size=1000000000
 
    HTTP/1.1 104 Upload Resumption Supported
    Upload-Draft-Interop-Version: 7
    Upload-Offset: 50
-   Upload-Limit: max-size=1000000000
 
    HTTP/1.1 200 OK
    Location: https://example.com/upload/b530ce8ff
@@ -757,6 +757,10 @@ Table of Contents
    Upload-Length: 100
 
    [partial content (25 bytes)]
+
+   HTTP/1.1 104 Upload Resumption Supported
+   Upload-Draft-Interop-Version: 7
+   Location: https://example.com/upload/b530ce8ff
 
    HTTP/1.1 201 Created
    Location: https://example.com/upload/b530ce8ff
@@ -1408,17 +1412,21 @@ Table of Contents
    IANA is asked to register the following entries in the "Hypertext
    Transfer Protocol (HTTP) Field Name Registry":
 
-     +=================+===========+================================+
-     | Field Name      | Status    | Reference                      |
-     +=================+===========+================================+
-     | Upload-Complete | permanent | Section 4.1.2 of this document |
-     +-----------------+-----------+--------------------------------+
-     | Upload-Offset   | permanent | Section 4.1.1 of this document |
-     +-----------------+-----------+--------------------------------+
-     | Upload-Limit    | permanent | Section 4.1.4 of this document |
-     +-----------------+-----------+--------------------------------+
-     | Upload-Length   | permanent | Section 4.1.3 of this document |
-     +-----------------+-----------+--------------------------------+
+   +=================+===========+=================+==================+
+   | Field Name      | Status    | Structured Type | Reference        |
+   +=================+===========+=================+==================+
+   | Upload-Complete | permanent | Item            | Section 4.1.2 of |
+   |                 |           |                 | this document    |
+   +-----------------+-----------+-----------------+------------------+
+   | Upload-Offset   | permanent | Item            | Section 4.1.1 of |
+   |                 |           |                 | this document    |
+   +-----------------+-----------+-----------------+------------------+
+   | Upload-Limit    | permanent | Dictionary      | Section 4.1.4 of |
+   |                 |           |                 | this document    |
+   +-----------------+-----------+-----------------+------------------+
+   | Upload-Length   | permanent | Item            | Section 4.1.3 of |
+   |                 |           |                 | this document    |
+   +-----------------+-----------+-----------------+------------------+
 
                                  Table 1
 

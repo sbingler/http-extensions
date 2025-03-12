@@ -4,13 +4,11 @@
 
 HTTP                                                          J. Reschke
 Internet-Draft                                                greenbytes
-Intended status: Standards Track                             A. Malhotra
-Expires: 6 September 2025                                               
-                                                              J.M. Snell
-                                                                        
+Intended status: Standards Track                              J.M. Snell
+Expires: 13 September 2025                                              
                                                                M. Bishop
                                                                   Akamai
-                                                            5 March 2025
+                                                           12 March 2025
 
 
                          The HTTP QUERY Method
@@ -50,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 September 2025.
+   This Internet-Draft will expire on 13 September 2025.
 
 Copyright Notice
 
@@ -103,6 +101,8 @@ Table of Contents
      B.7.  Since draft-ietf-httpbis-safe-method-w-body-06
      B.8.  Since draft-ietf-httpbis-safe-method-w-body-07
      B.9.  Since draft-ietf-httpbis-safe-method-w-body-08
+   Acknowledgements
+   Contributors
    Authors' Addresses
 
 1.  Introduction
@@ -129,9 +129,8 @@ Table of Contents
       because of the overhead of encoding that data into a valid URI,
       and
 
-   *  encoding query parameters directly into the request URI
-      effectively casts every possible combination of query inputs as
-      distinct resources.
+   *  encoding queries directly into the request URI effectively casts
+      every possible combination of query inputs as distinct resources.
 
    As an alternative to using GET, many implementations make use of the
    HTTP POST method to perform queries, as illustrated in the example
@@ -238,10 +237,10 @@ Table of Contents
    resource can be included in the Location header field of the response
    (see Section 10.2.2 of [HTTP]).  This represents a claim that a
    client can send a GET request to the indicated URI to repeat the
-   query operation just performed without resending the query
-   parameters.  This resource might be temporary; if a future request
-   fails, the client can retry using the original QUERY resource and the
-   previously submitted parameters again.
+   query operation just performed without resending the query payload.
+   This resource might be temporary; if a future request fails, the
+   client can retry using the original QUERY resource and the previously
+   submitted payload again.
 
 2.2.  Redirection
 
@@ -909,8 +908,33 @@ B.8.  Since draft-ietf-httpbis-safe-method-w-body-07
 
 B.9.  Since draft-ietf-httpbis-safe-method-w-body-08
 
+   *  Avoid term 'query parameters' (https://github.com/httpwg/http-
+      extensions/issues/3019)
+
    *  Add missing references, fixed terminology
       (https://github.com/httpwg/http-extensions/issues/3021)
+
+   *  Add Acknowledgements/Contributors sections; moved Ashok to
+      Contributors (https://github.com/httpwg/http-extensions/
+      issues/3029)
+
+Acknowledgements
+
+   We thank all members of the HTTP Working Group for ideas, reviews,
+   and feedback.
+
+   The following individuals deserve special recognition: Carsten
+   Bormann, Mark Nottingham, Martin Thomson, Michael Thornburgh, Roberto
+   Polli, Roy Fielding, and Will Hawkins.
+
+Contributors
+
+   Ashok Malhotra participated in early discussions leading to this
+   specification:
+
+   Ashok Malhotra
+   Email: malhotrasahib@gmail.com
+
 
 Authors' Addresses
 
@@ -921,10 +945,6 @@ Authors' Addresses
    Germany
    Email: julian.reschke@greenbytes.de
    URI:   https://greenbytes.de/tech/webdav/
-
-
-   Ashok Malhotra
-   Email: malhotrasahib@gmail.com
 
 
    James M Snell
