@@ -6,9 +6,9 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                                          
 Obsoletes: 6265 (if approved)                               M. West, Ed.
 Intended status: Standards Track                              Google LLC
-Expires: 8 January 2026                                 J. Wilander, Ed.
+Expires: 9 January 2026                                 J. Wilander, Ed.
                                                               Apple, Inc
-                                                             7 July 2025
+                                                             8 July 2025
 
 
                 Cookies: HTTP State Management Mechanism
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 9 January 2026.
 
 Copyright Notice
 
@@ -2615,9 +2615,6 @@ Table of Contents
               WHATWG, "HTML - Living Standard", 18 May 2021,
               <https://html.spec.whatwg.org/#dom-document-cookie>.
 
-   [FETCH]    van Kesteren, A., "Fetch", n.d.,
-              <https://fetch.spec.whatwg.org/>.
-
    [HTTP]     Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
@@ -2696,9 +2693,12 @@ Table of Contents
               October 2008,
               <http://portal.acm.org/citation.cfm?id=1455770.1455782>.
 
-   [HTML]     Hickson, I., Pieters, S., van Kesteren, A., Jägenstedt,
-              P., and D. Denicola, "HTML Living Standard", n.d.,
-              <https://html.spec.whatwg.org/>.  WHATWG
+   [FETCH]    van Kesteren, A., "Fetch Living Standard", n.d.,
+              <https://fetch.spec.whatwg.org/>.  WHATWG
+
+   [HTML]     van Kesteren, A., Denicola, D., Farolino, D., Hickson, I.,
+              Jägenstedt, P., and S. Pieters, "HTML Living Standard",
+              n.d., <https://html.spec.whatwg.org/>.  WHATWG
 
    [HttpFieldNameRegistry]
               "Hypertext Transfer Protocol (HTTP) Field Name Registry",
