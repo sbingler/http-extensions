@@ -1,4 +1,4 @@
-# Editor's drafts for Secdir2 branch of [sbingler/http-extensions](https://github.com/sbingler/http-extensions/tree/Secdir2)
+# Editor's drafts for Genart2 branch of [sbingler/http-extensions](https://github.com/sbingler/http-extensions/tree/Genart2)
 
 | Draft |     |     |     |
 | ----- | --- | --- | --- |
