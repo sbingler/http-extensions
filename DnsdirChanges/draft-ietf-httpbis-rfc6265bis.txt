@@ -6,9 +6,9 @@ HTTP                                                     S. Bingler, Ed.
 Internet-Draft                                                          
 Obsoletes: 6265 (if approved)                               M. West, Ed.
 Intended status: Standards Track                              Google LLC
-Expires: 16 May 2026                                    J. Wilander, Ed.
+Expires: 17 May 2026                                    J. Wilander, Ed.
                                                               Apple, Inc
-                                                        12 November 2025
+                                                        13 November 2025
 
 
                 Cookies: HTTP State Management Mechanism
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 May 2026.
+   This Internet-Draft will expire on 17 May 2026.
 
 Copyright Notice
 
@@ -318,8 +318,8 @@ Table of Contents
    conventional example this document will reference name resolution in
    terms of DNS.
 
-   Name resolution systems that directly expose Unicode are out of scope
-   of this document.
+   Name resolution systems that directly expose non-ASCII characters,
+   such as Unicode, are out of scope of this document.
 
 3.  Overview
 
@@ -1718,7 +1718,7 @@ Table of Contents
 
    10.  If the domain-attribute is non-empty:
 
-        1.  If request-host-canonical does not domain-match (See
+        1.  If request-host-canonical does not domain-match (see
             Section 5.1.3) the domain-attribute:
 
             1.  Abort this algorithm and ignore the cookie entirely.
@@ -1767,7 +1767,7 @@ Table of Contents
 
         2.  Their secure-only-flag is true.
 
-        3.  Their domain domain-matches (See Section 5.1.3) the domain
+        3.  Their domain domain-matches (see Section 5.1.3) the domain
             of the newly-created cookie, or vice-versa.
 
         4.  The path of the newly-created cookie path-matches the path
@@ -1971,7 +1971,7 @@ Table of Contents
           Or:
 
           -  The cookie's host-only-flag is false and retrieval-host-
-             canonical domain-matches (See Section 5.1.3) the cookie's
+             canonical domain-matches (see Section 5.1.3) the cookie's
              domain.
 
           -  The cookie's domain is not a public suffix, for user agents
